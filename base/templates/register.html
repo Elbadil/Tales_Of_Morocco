@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Sign Up</h1>
+<form method="POST" action="">
+    {% csrf_token %}
+    <div>
+        {% for field in form %}
+        <div>
+            <label>{{ field.label }}</label>
+            {{ field }}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                <span>{{ error }}</span>
+                {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit">Sign Up</button>
+        <p>Already Have An Account? <a href="{% url 'login'%}">Login</a></p>
+    </div>
+</form>
+{% endblock %}
