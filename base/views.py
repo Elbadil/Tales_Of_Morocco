@@ -3,8 +3,8 @@ from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import User
-from .forms import MyUserCreationFrom
+from .models import User, City, BlogPost
+from .forms import MyUserCreationFrom, CreateBlogForm
 
 
 def home(request):
@@ -65,3 +65,22 @@ def logoutUser(request):
     """Logout Route"""
     logout(request)
     return redirect(home)
+
+
+@login_required(login_url='login')
+def postBlog(request):
+    """Post Blog Form"""
+    form = CreateBlogForm()
+    if request.method == "POST":
+        form = CreateBlogForm(request.POST, request.FILES)
+        if form.is_valid():
+            blog = form.save(commit=False)
+            blog.author = request.user
+            blog.save()
+            return redirect('home')
+
+    context = {
+        'form': form,
+        'title': 'Create Blog'
+    }
+    return render(request, 'create-blog.html', context)

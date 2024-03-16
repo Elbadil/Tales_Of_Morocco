@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block content %}
+<h1>Create Blog</h1>
+<form method="POST" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        {% for field in form %}
+        <div>
+            {{ field.label }}
+            {{ field }}
+            {% if field.errors %}
+            {% for error in field.errors %}
+            <span>{{ error }}</span>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+        <button type="submit">Post Blog</button>
+    </div>
+</form>
+{% endblock %}
