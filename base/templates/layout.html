@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% if title %}
         <title>{{ title }} | Tales Of Morocco</title>
     {% else %}
@@ -14,7 +16,7 @@
     <nav>
         <h1><a href="{% url 'home' %}">TalesOfMorocco</a></h1>
         {% if request.user.is_authenticated %}
-            <h3><a href="{% url 'post-blog'%}">Post Blog</a></h3>
+            <h3><a href="{% url 'create-blog'%}">Post Blog</a></h3>
             <h3><a href="{% url 'logout' %}">Logout</a></h3>
         {% else %}
             <h3><a href="{% url 'login' %}">Login</a></h3>
@@ -31,6 +33,5 @@
     {% endif %}
     {% block content %}
     {% endblock content %}
-    <script src="{% static 'scripts/script.js' %}"></script>
 </body>
 </html>

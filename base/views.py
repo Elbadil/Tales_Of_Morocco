@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from .models import User, City, BlogPost
 from .forms import MyUserCreationFrom, CreateBlogForm
@@ -9,8 +10,10 @@ from .forms import MyUserCreationFrom, CreateBlogForm
 
 def home(request):
     """Home Page"""
+    posts = BlogPost.objects.all()
     context = {
-        'title': 'Home'
+        'title': 'Home',
+        'posts': posts
     }
     return render(request, 'home.html', context)
 
@@ -68,7 +71,7 @@ def logoutUser(request):
 
 
 @login_required(login_url='login')
-def postBlog(request):
+def createBlog(request):
     """Post Blog Form"""
     form = CreateBlogForm()
     if request.method == "POST":
@@ -77,10 +80,36 @@ def postBlog(request):
             blog = form.save(commit=False)
             blog.author = request.user
             blog.save()
-            return redirect('home')
+        return redirect('home');
 
     context = {
         'form': form,
         'title': 'Create Blog'
+    }
+    return render(request, 'create-blog.html', context)
+
+
+def blog(request, pk):
+    """Blog Post Page"""
+    post = get_object_or_404(BlogPost, id=int(pk))
+    context = {
+        'title': post.title,
+        'post': post
+    }
+    return render(request, 'blog.html', context)
+
+
+def updateBlog(request, pk):
+    """Update Blog Page"""
+    post = get_object_or_404(BlogPost, id=int(pk))
+    form = CreateBlogForm(instance=post)
+    if request.method == 'POST':
+        form = CreateBlogForm(request.POST, request.FILES, instance=post);
+        form.save()
+        return redirect('blog', pk=pk)
+    context = {
+        'title': 'Update Blog',
+        'form': form,
+        'post': post,
     }
     return render(request, 'create-blog.html', context)

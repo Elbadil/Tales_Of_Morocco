@@ -1,0 +1,15 @@
+{% extends 'layout.html' %}
+{% block content %}
+<div class="blog-post">
+    <h3>@{{ post.author.username }}</h3>
+    <small>{{ post.created | timesince }} ago</small>
+    {% if request.user == post.author %}
+    <a href="{% url 'update-blog' post.id %}">update</a>
+    {% endif %}
+    <h3>{{ post.title }}</h3>
+    <p>City: {{ post.city }}</p>
+    <p>Location: {{ post.specific_location }}</p>
+    <p>{{ post.description }}</p>
+    <hr>
+</div>
+{% endblock %}
