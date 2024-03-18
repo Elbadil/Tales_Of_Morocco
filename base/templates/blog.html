@@ -4,12 +4,35 @@
     <h3>@{{ post.author.username }}</h3>
     <small>{{ post.created | timesince }} ago</small>
     {% if request.user == post.author %}
-    <a href="{% url 'update-blog' post.id %}">update</a>
+        <a href="{% url 'update-blog' post.id %}">update</a>
+        <a href="{% url 'delete-blog' post.id %}">delete</a>
     {% endif %}
     <h3>{{ post.title }}</h3>
     <p>City: {{ post.city }}</p>
     <p>Location: {{ post.specific_location }}</p>
     <p>{{ post.description }}</p>
+    <p><b>Likes - {{ post_comments.count }} Comments</b></p>
     <hr>
+    <!-- Comment section -->
+    <h3>Comments</h3>
+    {% for comment in post_comments %}
+        <h4>@{{ comment.user.username }}</h4>
+        {% if comment.edited %}
+            <small>{{ comment.created | timesince }} ago - Edited</small>
+        {% else %}
+            <small>{{ comment.created | timesince }} ago</small>
+        {% endif %}
+        {% if request.user == comment.user %}
+            <a href="{% url 'update-comment' comment.id %}">update</a>
+            <a href="{% url 'delete-comment' comment.id %}">delete</a>
+        {% endif %}
+        <p>{{ comment.body }}</p>
+        <hr>
+    {% endfor %}
+    <!-- Comment Field -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="body">
+    </form>
 </div>
 {% endblock %}

@@ -4,13 +4,15 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from .models import User, City, BlogPost
+from .models import User, City, BlogPost, Comment
 from .forms import MyUserCreationFrom, CreateBlogForm
 
 
 def home(request):
     """Home Page"""
     posts = BlogPost.objects.all()
+    for post in posts:
+        post.comments = post.comment_set.all()
     context = {
         'title': 'Home',
         'posts': posts
@@ -92,16 +94,29 @@ def createBlog(request):
 def blog(request, pk):
     """Blog Post Page"""
     post = get_object_or_404(BlogPost, id=int(pk))
+    if request.method == 'POST':
+        Comment.objects.create(
+            user=request.user,
+            blogPost=post,
+            body=request.POST.get('body')
+        )
+        return redirect('blog', pk=post.id)
+
+    post_comments = post.comment_set.all().order_by('-created')
     context = {
         'title': post.title,
-        'post': post
+        'post': post,
+        'post_comments': post_comments
     }
     return render(request, 'blog.html', context)
 
 
+@login_required(login_url='login')
 def updateBlog(request, pk):
     """Update Blog Page"""
     post = get_object_or_404(BlogPost, id=int(pk))
+    if request.user != post.author:
+        return HttpResponse('Unauthorized')
     form = CreateBlogForm(instance=post)
     if request.method == 'POST':
         form = CreateBlogForm(request.POST, request.FILES, instance=post);
@@ -113,3 +128,55 @@ def updateBlog(request, pk):
         'post': post,
     }
     return render(request, 'create-blog.html', context)
+
+
+@login_required(login_url='login')
+def deleteBlog(request, pk):
+    """Delete Blog Route"""
+    post = get_object_or_404(BlogPost, id=int(pk))
+    if request.user != post.author:
+        return HttpResponse('Unauthorized')
+    if request.method == 'POST':
+        post.delete()
+        return redirect('home')
+
+    context = {
+        'title': f'Delete {post.title}?',
+        'obj': post.title
+    }
+    return render(request, 'delete.html', context)
+
+
+@login_required(login_url='login')
+def updateComment(request, pk):
+    """Update Comment Route"""
+    comment = get_object_or_404(Comment, id=int(pk))
+    if request.user != comment.user:
+        return HttpResponse('Unauthorized')
+    if request.method == 'POST':
+        comment.body = request.POST.get('body')
+        comment.edited = True
+        comment.save()
+        return redirect('blog', pk=comment.blogPost.id)
+    context = {
+        'title': f'Update Comment "{comment.body[:5]}.."',
+        'comment': comment
+    }
+    return render(request, 'update-comment.html', context)
+
+
+@login_required(login_url='login')
+def deleteComment(request, pk):
+    """Delete Comment Route"""
+    comment = get_object_or_404(Comment, id=int(pk))
+    if request.user != comment.user:
+        return HttpResponse('Unauthorized')
+    if request.method == "POST":
+        comment.delete()
+        return redirect('blog', pk=comment.blogPost.id)
+
+    context = {
+        'title': f'Delete Comment "{comment.body[:5]}.."?',
+        'obj': comment.body
+    }
+    return render(request, 'delete.html', context)

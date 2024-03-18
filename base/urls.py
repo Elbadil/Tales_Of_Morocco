@@ -8,5 +8,8 @@ urlpatterns = [
     path('logout/', views.logoutUser, name='logout'),
     path('create-blog/', views.createBlog, name='create-blog'),
     path('update-blog/<str:pk>/', views.updateBlog, name='update-blog'),
-    path('blog/<str:pk>/', views.blog, name='blog')
+    path('delete-blog/<str:pk>/', views.deleteBlog, name="delete-blog"),
+    path('blog/<str:pk>/', views.blog, name='blog'),
+    path('update-comment/<str:pk>/', views.updateComment, name='update-comment'),
+    path('delete-comment/<str:pk>/', views.deleteComment, name='delete-comment')
 ]

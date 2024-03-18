@@ -15,3 +15,8 @@
 .accommodation-stars {
     cursor: pointer;
 }
+
+i.fa.fa-heart {
+    color: #C6BEBC;
+    cursor: pointer;
+}

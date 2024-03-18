@@ -39,6 +39,7 @@ class BlogPost(models.Model):
                                                validators=[MinValueValidator(1),
                                                            MaxValueValidator(5)])
     picture = models.ImageField(null=True, blank=True)
+    likes = models.IntegerField(default=0)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -51,8 +52,16 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     blogPost = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
     body = models.TextField()
+    edited = models.BooleanField(default=False)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.body[:50]
+
+
+class Like(models.Model):
+    """Like Model"""
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    blogPost = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)

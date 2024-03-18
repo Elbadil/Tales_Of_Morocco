@@ -9,7 +9,13 @@
         <p>City: {{ post.city }}</p>
         <p>Location: {{ post.specific_location }}</p>
         <p>{{ post.description }}</p>
+        <p><i class="fa fa-heart"></i> <b>Likes - {{ post.comments.count }} Comments</b></p>
         <hr>
     </div>
+    <script>
+        function myFunction(x) {
+            x.classList.toggle("fa-thumbs-down");
+            }
+    </script>
 {% endfor %}
 {% endblock %}
