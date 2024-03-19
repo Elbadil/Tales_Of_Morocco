@@ -1,5 +1,7 @@
 {% extends 'layout.html' %}
+{% load static %}
 {% block content %}
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 <h1>Recent Blogs</h1>
 {% for post in posts %}
     <div class="blog-post">
@@ -9,13 +11,11 @@
         <p>City: {{ post.city }}</p>
         <p>Location: {{ post.specific_location }}</p>
         <p>{{ post.description }}</p>
-        <p><i class="fa fa-heart"></i> <b>Likes - {{ post.comments.count }} Comments</b></p>
+        <!-- like button -->
+        <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
+        <b><span id="like-{{ post.id }}">{{ post.likes }} Likes</span> - {{ post.comments.count }} Comments</b>
         <hr>
     </div>
-    <script>
-        function myFunction(x) {
-            x.classList.toggle("fa-thumbs-down");
-            }
-    </script>
 {% endfor %}
+<script src="{% static 'scripts/like_post.js' %}"></script>
 {% endblock %}

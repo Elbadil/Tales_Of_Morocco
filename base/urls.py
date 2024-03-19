@@ -12,6 +12,8 @@ urlpatterns = [
     path('blog/<str:pk>/', views.blog, name='blog'),
     path('update-comment/<str:pk>/', views.updateComment, name='update-comment'),
     path('delete-comment/<str:pk>/', views.deleteComment, name='delete-comment'),
+    path('like/<str:blog_id>/', views.likeBlog, name='like-blog'),
+    path('unlike/<str:blog_id>/', views.unlikeBlog, name='unlike-blog'),
     path('profile/<str:pk>/', views.profilePage, name='profile'),
-    path('updateprofile/<str:pk>/', views.updateProfile, name='update-profile')
+    path('update-profile/<str:pk>/', views.updateProfile, name='update-profile')
 ]

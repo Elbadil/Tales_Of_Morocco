@@ -2,6 +2,10 @@
     color: orange;
 }
 
+i.fa.fa-heart.liked {
+    color: red;
+}
+
 .my-btn {
     padding: 0;
     background-color: inherit !important;

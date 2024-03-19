@@ -37,9 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    # Our base app
-
-    'base.apps.BaseConfig'
+    'base.apps.BaseConfig',
+    'corsheaders',
 ]
 
 # Defining our custom User Model that will be used for auth and all user features
@@ -53,6 +52,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'Tales_Of_Morocco.urls'
@@ -138,3 +140,6 @@ STATICFILES_DIRS = [
 MEDIA_ROOT = BASE_DIR / 'static/images'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# # Cors specification
+# CORS_ALLOW_ALL_ORIGINS = True

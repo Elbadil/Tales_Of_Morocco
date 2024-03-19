@@ -1,11 +1,11 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
-from .models import User, City, BlogPost, Comment
-from .forms import MyUserCreationFrom, CreateBlogForm, UpdateProfileFrom
+from .models import User, BlogPost, Comment, Like
+from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 
 def home(request):
@@ -13,6 +13,15 @@ def home(request):
     posts = BlogPost.objects.all()
     for post in posts:
         post.comments = post.comment_set.all()
+    user_likes = None;
+    if request.user.is_authenticated:
+        # Query all like objects of the request user
+        user_likes = Like.objects.filter(user=request.user)
+
+    for post in posts:
+        # Checks if the user and the blogPost share the same Like object
+        post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
+
     context = {
         'title': 'Home',
         'posts': posts
@@ -57,7 +66,7 @@ def registerPage(request):
         form = MyUserCreationFrom(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')
+            return redirect('login')
     context = {
         'form': form,
         'title': 'Sign Up'
@@ -94,6 +103,12 @@ def createBlog(request):
 def blog(request, pk):
     """Blog Post Page"""
     post = get_object_or_404(BlogPost, id=int(pk))
+    user_likes = None;
+    if request.user.is_authenticated:
+        # Query all like objects of the request user
+        user_likes = Like.objects.filter(user=request.user)
+    post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
+
     if request.method == 'POST':
         Comment.objects.create(
             user=request.user,
@@ -103,6 +118,7 @@ def blog(request, pk):
         return redirect('blog', pk=post.id)
 
     post_comments = post.comment_set.all().order_by('-created')
+
     context = {
         'title': post.title,
         'post': post,
@@ -181,9 +197,31 @@ def deleteComment(request, pk):
     }
     return render(request, 'delete.html', context)
 
+
+@login_required(login_url='login')
+def likeBlog(request, blog_id):
+    """Like Blog Route"""
+    post = get_object_or_404(BlogPost, id=int(blog_id))
+    Like.objects.create(user=request.user, blogPost=post)
+    post.likes += 1
+    post.save()
+    return JsonResponse({'likes': post.likes})
+
+
+@login_required(login_url='login')
+def unlikeBlog(request, blog_id):
+    """Unlike Blog Route"""
+    post = get_object_or_404(BlogPost, id=int(blog_id))
+    like = Like.objects.filter(user=request.user, blogPost=post).first()
+    like.delete()
+    post.likes -= 1
+    post.save()
+    return JsonResponse({'likes': post.likes})
+
+
 def profilePage(request, pk):
     """Profile Page"""
-    user = User.objects.get(id=pk)
+    user = User.objects.get(id=int(pk))
     context = {
         'title': 'Profile Page',
         'user': user,
@@ -194,11 +232,11 @@ def profilePage(request, pk):
 @login_required(login_url='login')
 def updateProfile(request, pk):
     """Update Profile Route"""
-    user = User.objects.get(id=pk)
-    form = UpdateProfileFrom(instance=user)
+    user = User.objects.get(id=int(pk))
+    form = UpdateUserForm(instance=user)
 
     if request.method == 'POST':
-        form = UpdateProfileFrom(request.POST, instance=user)
+        form = UpdateUserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
             return redirect('update-profile', pk=pk,)

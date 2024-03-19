@@ -34,7 +34,7 @@ class CreateBlogForm(ModelForm):
             'picture'
         ]
 
-class UpdateProfileFrom(ModelForm):
+class UpdateUserForm(ModelForm):
     """Update Profile From"""
     class Meta:
         """Class Meta to specify the Model and the fields"""
@@ -42,7 +42,7 @@ class UpdateProfileFrom(ModelForm):
         fields = [
             'name',
             'username',
-            'bio',
             'email',
+            'bio',
             'avatar'
         ]
