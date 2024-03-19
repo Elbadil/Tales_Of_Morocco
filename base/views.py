@@ -222,9 +222,11 @@ def unlikeBlog(request, blog_id):
 def profilePage(request, pk):
     """Profile Page"""
     user = User.objects.get(id=int(pk))
+    posts = BlogPost.objects.filter(author__id=int(pk))
     context = {
         'title': 'Profile Page',
         'user': user,
+        'posts': posts
     }
     return render(request, 'profile.html', context)
  

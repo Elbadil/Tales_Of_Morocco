@@ -3,8 +3,8 @@
   <h1>{{ user.username }}</h1>
   <h5>{{ user.bio }}</h5>
   <h3><a href="{% url 'update-profile' user.id %}">Edit profile</a></h3>
-  <!-- <div>
-    {% for post in user. %}
+  <div>
+    {% for post in posts %}
     <div>
       <small>{{ post.created | timesince }} ago</small>
         <h3><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h3>
@@ -15,5 +15,5 @@
         <hr>
     </div>
     {% endfor %}
-  </div> -->
+  </div>
 {% endblock content %}
