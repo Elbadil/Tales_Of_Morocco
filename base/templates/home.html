@@ -13,7 +13,10 @@
         <p>{{ post.description }}</p>
         <!-- like button -->
         <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
-        <b><span id="like-{{ post.id }}">{{ post.likes }} Likes</span> - {{ post.comments.count }} Comments</b>
+        <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
+        <!-- comment button -->
+        <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
+        <span>   {% if post.comments.count > 0 %}{{ post.comments.count }}{% endif %}</span></b></a>
         <hr>
     </div>
 {% endfor %}

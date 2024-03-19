@@ -34,6 +34,7 @@ class CreateBlogForm(ModelForm):
             'picture'
         ]
 
+
 class UpdateUserForm(ModelForm):
     """Update Profile From"""
     class Meta:

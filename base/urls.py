@@ -15,5 +15,5 @@ urlpatterns = [
     path('like/<str:blog_id>/', views.likeBlog, name='like-blog'),
     path('unlike/<str:blog_id>/', views.unlikeBlog, name='unlike-blog'),
     path('profile/<str:pk>/', views.profilePage, name='profile'),
-    path('update-profile/<str:pk>/', views.updateProfile, name='update-profile')
+    path('update-profile/<str:pk>/', views.updateUser, name='update-profile')
 ]

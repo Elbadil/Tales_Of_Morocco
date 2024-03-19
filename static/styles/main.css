@@ -24,3 +24,8 @@ i.fa.fa-heart {
     color: #C6BEBC;
     cursor: pointer;
 }
+
+.comment-link {
+    text-decoration: none;
+    color: black;
+}

@@ -8,7 +8,7 @@ class User(AbstractUser):
     """Custom User Model"""
     name = models.CharField(max_length=200, null=True, blank=False)
     email = models.EmailField(unique=True, null=False, blank=False)
-    bio = models.TextField(null=True)
+    bio = models.TextField(null=True, blank=True)
     avatar = models.ImageField(null=True, default="default.jpg")
 
     USERNAME_FIELD = 'email'
@@ -44,7 +44,7 @@ class BlogPost(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        ordering = ['-updated', '-created']
+        ordering = ['-created']
 
     def __str__(self) -> str:
         return self.title

@@ -1,7 +1,10 @@
 {% extends 'layout.html' %}
+{% load static %}
 {% block content %}
   <h1>{{ user.username }}</h1>
+  {% if user.bio %}
   <h5>{{ user.bio }}</h5>
+  {% endif %}
   <h3><a href="{% url 'update-profile' user.id %}">Edit profile</a></h3>
   <div>
     {% for post in posts %}
@@ -11,9 +14,15 @@
         <p>City: {{ post.city }}</p>
         <p>Location: {{ post.specific_location }}</p>
         <p>{{ post.description }}</p>
-        <p><i class="fa fa-heart"></i> <b>Likes - {{ post.comments.count }} Comments</b></p>
+        <!-- like button -->
+        <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
+        <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
+        <!-- comment button -->
+        <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
+        <span>   {% if post.comments.count > 0 %}{{ post.comments.count }}{% endif %}</span></b></a>
         <hr>
     </div>
     {% endfor %}
   </div>
+<script src="{% static 'scripts/like_post.js' %}"></script>
 {% endblock content %}

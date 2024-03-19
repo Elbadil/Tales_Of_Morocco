@@ -223,16 +223,26 @@ def profilePage(request, pk):
     """Profile Page"""
     user = User.objects.get(id=int(pk))
     posts = BlogPost.objects.filter(author__id=int(pk))
+    for post in posts:
+        post.comments = post.comment_set.all()
+    user_likes = None;
+    if request.user.is_authenticated:
+        # Query all like objects of the request user
+        user_likes = Like.objects.filter(user=request.user)
+    for post in posts:
+        # Checks if the user and the blogPost share the same Like object
+        post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
+
     context = {
         'title': 'Profile Page',
         'user': user,
         'posts': posts
     }
     return render(request, 'profile.html', context)
- 
+
 
 @login_required(login_url='login')
-def updateProfile(request, pk):
+def updateUser(request, pk):
     """Update Profile Route"""
     user = User.objects.get(id=int(pk))
     form = UpdateUserForm(instance=user)
@@ -241,10 +251,10 @@ def updateProfile(request, pk):
         form = UpdateUserForm(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('update-profile', pk=pk,)
+            return redirect('profile', pk=int(pk))
     
     context = {
-        'title': 'Update Profile',
+        'title': 'Update Account',
         'form': form
     }
     return render(request, 'update-profile.html', context)
