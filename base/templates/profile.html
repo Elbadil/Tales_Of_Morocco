@@ -1,0 +1,18 @@
+{% extends 'layout.html' %}
+{% block content %}
+  <h1>{{ user.username }}</h1>
+  <h3><a href="{% url 'update-profile' user.id %}">Edit profile</a></h3>
+  <!-- <div>
+    {% for post in user. %}
+    <div>
+      <small>{{ post.created | timesince }} ago</small>
+        <h3><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h3>
+        <p>City: {{ post.city }}</p>
+        <p>Location: {{ post.specific_location }}</p>
+        <p>{{ post.description }}</p>
+        <p><i class="fa fa-heart"></i> <b>Likes - {{ post.comments.count }} Comments</b></p>
+        <hr>
+    </div>
+    {% endfor %}
+  </div> -->
+{% endblock content %}

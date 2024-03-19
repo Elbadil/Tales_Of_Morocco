@@ -180,3 +180,31 @@ def deleteComment(request, pk):
         'obj': comment.body
     }
     return render(request, 'delete.html', context)
+
+def profilePage(request, pk):
+    """Profile Page"""
+    user = User.objects.get(id=pk)
+    context = {
+        'title': 'Profile Page',
+        'user': user,
+    }
+    return render(request, 'profile.html', context)
+ 
+
+@login_required(login_url='login')
+def updateProfile(request, pk):
+    """Update Profile Route"""
+    user = User.objects.get(id=pk)
+    form = MyUserCreationFrom(instance=user)
+
+    if request.method == 'POST':
+        form = MyUserCreationFrom(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('update-profile', pk=pk)
+    
+    context = {
+        'title': 'Update Profile',
+        'form': form
+    }
+    return render(request, 'update-profile.html', context)

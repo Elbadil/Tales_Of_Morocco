@@ -16,7 +16,8 @@
     <nav>
         <h1><a href="{% url 'home' %}">TalesOfMorocco</a></h1>
         {% if request.user.is_authenticated %}
-            <h3><a href="{% url 'create-blog'%}">Post Blog</a></h3>
+            <h3><a href="{% url 'profile' user.id %}">{{ user.username }}</a></h3>
+            <h3><a href="{% url 'create-blog' %}">Post Blog</a></h3>
             <h3><a href="{% url 'logout' %}">Logout</a></h3>
         {% else %}
             <h3><a href="{% url 'login' %}">Login</a></h3>
