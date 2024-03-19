@@ -3,9 +3,9 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.contrib import messages
-from .models import User, BlogPost, Comment, Like
+from .models import User, BlogPost, Comment, Like, City
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 
@@ -18,6 +18,17 @@ def home(request):
         Q(specific_location__icontains=query)
     )
 
+    postSetup(request, posts)
+
+    context = {
+        'title': 'Home',
+        'posts': posts
+    }
+    return render(request, 'home.html', context)
+
+
+def postSetup(request, posts):
+    """sets up all necessary posts logic"""
     for post in posts:
         post.comments = post.comment_set.all()
 
@@ -29,12 +40,6 @@ def home(request):
     for post in posts:
         # Checks if the user and the blogPost share the same Like object
         post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
-
-    context = {
-        'title': 'Home',
-        'posts': posts
-    }
-    return render(request, 'home.html', context)
 
 
 def loginPage(request):
@@ -87,6 +92,42 @@ def logoutUser(request):
     """Logout Route"""
     logout(request)
     return redirect(home)
+
+
+def profilePage(request, pk):
+    """Profile Page"""
+    user = User.objects.get(id=int(pk))
+    posts = BlogPost.objects.filter(author__id=int(pk))
+
+    postSetup(request, posts)
+
+    context = {
+        'title': 'Profile Page',
+        'user': user,
+        'posts': posts
+    }
+    return render(request, 'profile.html', context)
+
+
+@login_required(login_url='login')
+def updateUser(request, pk):
+    """Update Profile Route"""
+    user = User.objects.get(id=int(pk))
+    if request.user != user:
+        return HttpResponse('Unauthorized')
+    form = UpdateUserForm(instance=user)
+
+    if request.method == 'POST':
+        form = UpdateUserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile', pk=int(pk))
+    
+    context = {
+        'title': 'Update Account',
+        'form': form
+    }
+    return render(request, 'update-profile.html', context)
 
 
 @login_required(login_url='login')
@@ -227,44 +268,45 @@ def unlikeBlog(request, blog_id):
     return JsonResponse({'likes': post.likes})
 
 
-def profilePage(request, pk):
-    """Profile Page"""
-    user = User.objects.get(id=int(pk))
-    posts = BlogPost.objects.filter(author__id=int(pk))
-    for post in posts:
-        post.comments = post.comment_set.all()
-    user_likes = None;
-    if request.user.is_authenticated:
-        # Query all like objects of the request user
-        user_likes = Like.objects.filter(user=request.user)
-    for post in posts:
-        # Checks if the user and the blogPost share the same Like object
-        post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
+def communityFav(request):
+    """Posts By Community Favorites"""
+    posts = BlogPost.objects.all().order_by('-likes')
+    postSetup(request, posts)
 
     context = {
-        'title': 'Profile Page',
-        'user': user,
+        'title': 'Community Favorites',
         'posts': posts
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'home.html', context)
 
 
-@login_required(login_url='login')
-def updateUser(request, pk):
-    """Update Profile Route"""
-    user = User.objects.get(id=int(pk))
-    if request.user != user:
-        return HttpResponse('Unauthorized')
-    form = UpdateUserForm(instance=user)
-
-    if request.method == 'POST':
-        form = UpdateUserForm(request.POST, instance=user)
-        if form.is_valid():
-            form.save()
-            return redirect('profile', pk=int(pk))
-    
+def topSpotPicks(request):
+    """Top Spots Visited By the Community"""
     context = {
-        'title': 'Update Account',
-        'form': form
+        'title': 'Top Spot Picks',
     }
-    return render(request, 'update-profile.html', context)
+    return render(request, 'home.html', context)
+
+
+def postByCuisine(request):
+    """Posts by Cuisine"""
+    posts = BlogPost.objects.all().order_by('-food_rating')
+    postSetup(request, posts)
+
+    context = {
+        'title': 'Cuisine Delights',
+        'posts': posts
+    }
+    return render(request, 'home.html', context)
+
+
+def postByAcc(request):
+    """Posts By Accommodation"""
+    posts = BlogPost.objects.all().order_by('-accommodation_rating')
+    postSetup(request, posts)
+
+    context = {
+        'title': 'Accommodation Escapes',
+        'posts': posts
+    }
+    return render(request, 'home.html', context)

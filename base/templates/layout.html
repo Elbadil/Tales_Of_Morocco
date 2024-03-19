@@ -19,6 +19,11 @@
             <input type="text" name="s_query" placeholder="Search Blogs">
             <button type="submit">Search</button>
         </form>
+        <p><b>Explore by </b><a href="{% url 'community-fav' %}">Community Favorites</a> | 
+            <a href="{% url 'top-picks' %}">Top Spot Picks</a>
+            | <a href="{% url 'cuisine-delights' %}">Cuisine Delights</a> | 
+            <a href="{% url 'accommodation-escapes' %}">Accommodation Escapes</a></p>
+        <hr>
         {% if request.user.is_authenticated %}
             <h3><a href="{% url 'profile' user.id %}">{{ user.username }}</a></h3>
             <h3><a href="{% url 'create-blog' %}">Post Blog</a></h3>

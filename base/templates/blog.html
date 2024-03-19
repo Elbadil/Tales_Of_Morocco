@@ -3,7 +3,7 @@
 {% block content %}
 <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
 <div class="blog-post">
-    <h3>@{{ post.author.username }}</h3>
+    <h3><a href="{% url 'profile' post.author.id %}">@{{ post.author.username }}</a></h3>
     <small>{{ post.created | timesince }} ago</small>
     {% if request.user == post.author %}
         <a href="{% url 'update-blog' post.id %}">update</a>
@@ -23,7 +23,7 @@
     <!-- Comment section -->
     <h3>Comments</h3>
     {% for comment in post_comments %}
-        <h4>@{{ comment.user.username }}</h4>
+        <h4><a href="{% url 'profile' comment.user.id %}">@{{ comment.user.username }}</a></h4>
         {% if comment.edited %}
             <small>{{ comment.created | timesince }} ago - Edited</small>
         {% else %}
@@ -39,7 +39,7 @@
     <!-- Comment Field -->
     <form method="POST" action="">
         {% csrf_token %}
-        <input type="text" name="body">
+        <input type="text" name="body" placeholder="Add Comment">
     </form>
 </div>
 <script src="{% static 'scripts/like_post.js' %}"></script>
