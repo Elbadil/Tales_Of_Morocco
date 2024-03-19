@@ -1,6 +1,7 @@
 {% extends 'layout.html' %}
 {% block content %}
   <h1>{{ user.username }}</h1>
+  <h5>{{ user.bio }}</h5>
   <h3><a href="{% url 'update-profile' user.id %}">Edit profile</a></h3>
   <!-- <div>
     {% for post in user. %}

@@ -33,3 +33,16 @@ class CreateBlogForm(ModelForm):
             'accommodation_rating',
             'picture'
         ]
+
+class UpdateProfileFrom(ModelForm):
+    """Update Profile From"""
+    class Meta:
+        """Class Meta to specify the Model and the fields"""
+        model = User
+        fields = [
+            'name',
+            'username',
+            'bio',
+            'email',
+            'avatar'
+        ]

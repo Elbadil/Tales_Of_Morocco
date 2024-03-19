@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from .models import User, City, BlogPost, Comment
-from .forms import MyUserCreationFrom, CreateBlogForm
+from .forms import MyUserCreationFrom, CreateBlogForm, UpdateProfileFrom
 
 
 def home(request):
@@ -195,13 +195,13 @@ def profilePage(request, pk):
 def updateProfile(request, pk):
     """Update Profile Route"""
     user = User.objects.get(id=pk)
-    form = MyUserCreationFrom(instance=user)
+    form = UpdateProfileFrom(instance=user)
 
     if request.method == 'POST':
-        form = MyUserCreationFrom(request.POST, instance=user)
+        form = UpdateProfileFrom(request.POST, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('update-profile', pk=pk)
+            return redirect('update-profile', pk=pk,)
     
     context = {
         'title': 'Update Profile',
