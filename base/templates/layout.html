@@ -7,17 +7,16 @@
     <link rel="stylesheet" href="{% static 'styles/main.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     {% if title %}
-        <title>{{ title }} | Tales Of Morocco</title>
+    <title>{{ title }} | Tales Of Morocco</title>
     {% else %}
-        <title>Tales Of Morocco</title>
+    <title>Tales Of Morocco</title>
     {% endif %}
 </head>
 <body>
     <nav>
         <h1><a href="{% url 'home' %}">TalesOfMorocco</a></h1>
-        <form method="POST" action="{% url 'home' %}">
-            {% csrf_token %}
-            <input type="text" name="search_query" placeholder="Search Blogs">
+        <form method="GET" action="{% url 'home' %}">
+            <input type="text" name="s_query" placeholder="Search Blogs">
             <button type="submit">Search</button>
         </form>
         {% if request.user.is_authenticated %}

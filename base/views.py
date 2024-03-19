@@ -3,6 +3,7 @@ from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
+from django.db.models import Q
 from django.contrib import messages
 from .models import User, BlogPost, Comment, Like
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
@@ -10,9 +11,16 @@ from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 def home(request):
     """Home Page"""
-    posts = BlogPost.objects.all()
+    query = request.GET.get('s_query') if request.GET.get('s_query') else ''
+    posts = BlogPost.objects.filter(
+        Q(city__name__icontains=query) |
+        Q(title__icontains=query) |
+        Q(specific_location__icontains=query)
+    )
+
     for post in posts:
         post.comments = post.comment_set.all()
+
     user_likes = None;
     if request.user.is_authenticated:
         # Query all like objects of the request user
@@ -245,6 +253,8 @@ def profilePage(request, pk):
 def updateUser(request, pk):
     """Update Profile Route"""
     user = User.objects.get(id=int(pk))
+    if request.user != user:
+        return HttpResponse('Unauthorized')
     form = UpdateUserForm(instance=user)
 
     if request.method == 'POST':
