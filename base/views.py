@@ -11,6 +11,17 @@ from .models import User, BlogPost, Comment, Like, City
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 
+# Application activities
+posts = BlogPost.objects.all()
+comments = Comment.objects.all()
+likes = Like.objects.all()
+activities = sorted(
+    chain(posts, comments, likes),
+    key=attrgetter('created'),
+    reverse=True
+)
+
+
 def home(request):
     """Home Page"""
     query = request.GET.get('s_query') if request.GET.get('s_query') else ''
@@ -21,21 +32,11 @@ def home(request):
     )
 
     postSetup(request, posts)
- 
-    recent_posts = BlogPost.objects.all()
-    recent_comments = Comment.objects.all()
-    recent_likes = Like.objects.all()
-
-    activities = sorted(
-        chain(recent_posts, recent_comments, recent_likes),
-        key=attrgetter('created'),
-        reverse=True
-    )
 
     context = {
         'title': 'Home',
         'posts': posts,
-        'activities': activities
+        'activities': activities[:10]
     }
     return render(request, 'home.html', context)
 
@@ -51,7 +52,7 @@ def postSetup(request, posts):
         user_likes = Like.objects.filter(user=request.user)
 
     for post in posts:
-        # Checks if the user and the blogPost share the same Like object
+        # Check if the user and the blogPost share the same Like object
         post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
 
 
@@ -114,10 +115,24 @@ def profilePage(request, pk):
 
     postSetup(request, posts)
 
+    user_comments = user.comment_set.all()
+    user_likes = user.like_set.all()
+
+    activities = sorted(
+        # chain combines the list of objects directly without creating a new list
+        chain(posts, user_comments, user_likes),
+        # attrgetter to only compare the 'created' attribute of the objects
+        # instead of the whole objects, which means it provides more control and
+        # clarity in specifying the attribute to be used for sorting
+        key=attrgetter('created'),
+        reverse=True
+    )
+
     context = {
         'title': 'Profile Page',
         'user': user,
-        'posts': posts
+        'posts': posts,
+        'activities': activities[:10]
     }
     return render(request, 'profile.html', context)
 
@@ -289,7 +304,8 @@ def communityFav(request):
 
     context = {
         'title': 'Community Favorites',
-        'posts': posts
+        'posts': posts,
+        'activities': activities[:10]
     }
     return render(request, 'home.html', context)
 
@@ -303,6 +319,7 @@ def topSpotPicks(request):
 
     context = {
         'title': 'Top Spot Picks',
+        'activities': activities[:10]
     }
     return render(request, 'home.html', context)
 
@@ -314,7 +331,8 @@ def postByCuisine(request):
 
     context = {
         'title': 'Cuisine Delights',
-        'posts': posts
+        'posts': posts,
+        'activities': activities[:10]
     }
     return render(request, 'home.html', context)
 
@@ -326,6 +344,7 @@ def postByAcc(request):
 
     context = {
         'title': 'Accommodation Escapes',
-        'posts': posts
+        'posts': posts,
+        'activities': activities[:10]
     }
     return render(request, 'home.html', context)
