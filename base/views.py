@@ -21,7 +21,7 @@ def home(request):
     )
 
     postSetup(request, posts)
-
+ 
     recent_posts = BlogPost.objects.all()
     recent_comments = Comment.objects.all()
     recent_likes = Like.objects.all()

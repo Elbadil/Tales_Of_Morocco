@@ -6,7 +6,7 @@
   <h5>{{ user.bio }}</h5>
   {% endif %}
   {% if request.user == user %}
-  <h3><a href="{% url 'update-profile' user.id %}">Edit profile</a></h3>
+  <h3><a href="{% url 'update-profile' %}">Edit profile</a></h3>
   {% endif %}
   <div>
     {% for post in posts %}
