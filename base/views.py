@@ -5,6 +5,8 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
 from django.contrib import messages
+from itertools import chain
+from operator import attrgetter
 from .models import User, BlogPost, Comment, Like, City
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
@@ -20,9 +22,20 @@ def home(request):
 
     postSetup(request, posts)
 
+    recent_posts = BlogPost.objects.all()
+    recent_comments = Comment.objects.all()
+    recent_likes = Like.objects.all()
+
+    activities = sorted(
+        chain(recent_posts, recent_comments, recent_likes),
+        key=attrgetter('created'),
+        reverse=True
+    )
+
     context = {
         'title': 'Home',
-        'posts': posts
+        'posts': posts,
+        'activities': activities
     }
     return render(request, 'home.html', context)
 
@@ -110,18 +123,16 @@ def profilePage(request, pk):
 
 
 @login_required(login_url='login')
-def updateUser(request, pk):
+def updateUser(request):
     """Update Profile Route"""
-    user = User.objects.get(id=int(pk))
-    if request.user != user:
-        return HttpResponse('Unauthorized')
+    user = request.user
     form = UpdateUserForm(instance=user)
 
     if request.method == 'POST':
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile', pk=int(pk))
+            return redirect('profile', pk=int(user.id))
     
     context = {
         'title': 'Update Account',
@@ -250,6 +261,9 @@ def deleteComment(request, pk):
 @login_required(login_url='login')
 def likeBlog(request, blog_id):
     """Like Blog Route"""
+    referring_url = request.META.get('HTTP_REFERER')
+    if referring_url and 'login' in referring_url:
+        return redirect('home')
     post = get_object_or_404(BlogPost, id=int(blog_id))
     Like.objects.create(user=request.user, blogPost=post)
     post.likes += 1
@@ -282,6 +296,11 @@ def communityFav(request):
 
 def topSpotPicks(request):
     """Top Spots Visited By the Community"""
+    # Getting the blogpost count for each City
+    cities_blogpost_count = City.objects.annotate(blogpost_count=Count('blogpost'))
+    # Sort these by blogpost count
+    sorted_cities = cities_blogpost_count.order_by('-blogpost_count')
+
     context = {
         'title': 'Top Spot Picks',
     }

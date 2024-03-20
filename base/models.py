@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MinValueValidator, MaxValueValidator
-import uuid
 
 
 class User(AbstractUser):
@@ -49,6 +48,8 @@ class BlogPost(models.Model):
     def __str__(self) -> str:
         return self.title
 
+    def class_name(self) -> str:
+        return self.__class__.__name__
 
 class Comment(models.Model):
     """Comment Model"""
@@ -61,6 +62,9 @@ class Comment(models.Model):
 
     def __str__(self) -> str:
         return self.body[:50]
+    
+    def class_name(self) -> str:
+        return self.__class__.__name__
 
 
 class Like(models.Model):
@@ -68,3 +72,9 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     blogPost = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f'{self.user.username} liked {self.blogPost.title}'
+    
+    def class_name(self) -> str:
+        return self.__class__.__name__
