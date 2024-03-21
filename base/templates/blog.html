@@ -10,7 +10,7 @@
         <a href="{% url 'delete-blog' post.id %}">delete</a>
     {% endif %}
     <h3>{{ post.title }}</h3>
-    <p>City: {{ post.city }}</p>
+    <p>City: <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a></p>
     <p>Location: {{ post.specific_location }}</p>
     <p>{{ post.description }}</p>
     <!-- like button -->

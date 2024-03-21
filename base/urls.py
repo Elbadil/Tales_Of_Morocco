@@ -19,5 +19,6 @@ urlpatterns = [
     path('community-fav/', views.communityFav, name='community-fav'),
     path('top-picks/', views.topSpotPicks, name='top-picks'),
     path('cuisine-delights/', views.postByCuisine, name='cuisine-delights'),
-    path('accommodation-escapes/', views.postByAcc, name='accommodation-escapes')
+    path('accommodation-escapes/', views.postByAcc, name='accommodation-escapes'),
+    path('city-blogs/<str:pk>/', views.ciyBlogs, name='city-blogs')
 ]

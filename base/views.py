@@ -348,3 +348,29 @@ def postByAcc(request):
         'activities': activities[:10]
     }
     return render(request, 'home.html', context)
+
+
+def ciyBlogs(request, pk):
+    """Blogs by City Route"""
+    city = get_object_or_404(City, id=int(pk))
+    posts = BlogPost.objects.filter(city=city)
+    likes = []
+    comments = []
+    for post in posts:
+        likes.extend(post.like_set.all())
+        comments.extend(post.comment_set.all())
+
+    postSetup(request, posts)
+
+    activities = sorted(
+        chain(posts, comments, likes),
+        key=attrgetter('created'),
+        reverse=True
+    )
+
+    context = {
+        'title': f'{city.name} Blogs',
+        'posts': posts,
+        'activities': activities[:10]
+    }
+    return render(request, 'home.html', context)
