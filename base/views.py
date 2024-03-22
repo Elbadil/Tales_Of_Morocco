@@ -377,4 +377,4 @@ def ciyBlogs(request, pk):
 
 
 def testIndex(request):
-    return render(request, 'index.html')
+    return render(request, 'home_new.html')
