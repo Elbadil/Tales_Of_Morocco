@@ -1,0 +1,37 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+.checked {
+    color: orange;
+}
+
+i.fa.fa-heart.liked {
+    color: red;
+}
+
+.my-btn {
+    padding: 0;
+    background-color: inherit !important;
+    border: 0 !important;
+}
+
+.food-stars {
+    cursor: pointer;
+}
+
+.accommodation-stars {
+    cursor: pointer;
+}
+
+i.fa.fa-heart {
+    color: #C6BEBC;
+    cursor: pointer;
+}
+
+.comment-link {
+    text-decoration: none;
+    color: black;
+}

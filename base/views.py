@@ -374,3 +374,7 @@ def ciyBlogs(request, pk):
         'activities': activities[:10]
     }
     return render(request, 'home.html', context)
+
+
+def testIndex(request):
+    return render(request, 'index.html')
