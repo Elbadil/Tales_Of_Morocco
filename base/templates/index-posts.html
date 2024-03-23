@@ -12,11 +12,11 @@
                 <p><a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a> | {{ post.specific_location }}</p>
           </div>
           <div class="meta">
-              <time class="published" datetime="2015-11-01">{{ post.created }}</time>
-              <a href="{% url 'profile' post.author.id %}" class="author"><span class="name">{{ post.author.username}}</span><img src="{{ request.user.avatar.url }}" alt="" /></a>
+              <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
+              <a href="{% url 'profile' post.author.id %}" class="author"><span class="name">{{ post.author.username}}</span><img src="{{ post.author.avatar.url }}" alt="" /></a>
           </div>
       </header>
-      <a href="{% url 'blog' post.id %}" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
+      <a href="{% url 'blog' post.id %}" class="image featured"><img src="{% static 'images/cuisine.jpg' %}" alt="" /></a>
       <p>{{ post.description }}</p>
       <footer>
           <ul class="actions">
