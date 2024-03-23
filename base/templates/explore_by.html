@@ -1,3 +1,4 @@
+{% load static %}
 <section id="sidebar">
 
 <!-- Intro -->
@@ -12,47 +13,32 @@
 <!-- Mini Posts -->
   <section>
     <div class="mini-posts">
-
+      <header>
+        <h2>Explore By</h2>
+      </header>
       <!-- Mini Post -->
         <article class="mini-post">
           <header>
-            <h3><a href="single.html">Vitae sed condimentum</a></h3>
-            <time class="published" datetime="2015-10-20">October 20, 2015</time>
-            <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+            <h3><a href="{% url 'community-fav' %}">Community Favorites</a></h3>
           </header>
-          <a href="single.html" class="image"><img src="images/pic04.jpg" alt="" /></a>
+          <a href="{% url 'community-fav' %}" class="image"><img src="{% static 'images/fav.jpg' %}" alt="" /></a>
         </article>
 
       <!-- Mini Post -->
         <article class="mini-post">
           <header>
-            <h3><a href="single.html">Rutrum neque accumsan</a></h3>
-            <time class="published" datetime="2015-10-19">October 19, 2015</time>
-            <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+            <h3><a href="{% url 'cuisine-delights' %}">Cuisine Delights</a></h3>
           </header>
-          <a href="single.html" class="image"><img src="images/pic05.jpg" alt="" /></a>
+          <a href="{% url 'cuisine-delights' %}" class="image"><img src="{% static 'images/cuisine.jpg' %}" alt="" /></a>
         </article>
 
       <!-- Mini Post -->
         <article class="mini-post">
           <header>
-            <h3><a href="single.html">Odio congue mattis</a></h3>
-            <time class="published" datetime="2015-10-18">October 18, 2015</time>
-            <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
+            <h3><a href="{% url 'accommodation-escapes' %}">Accommodation Escapes</a></h3>
           </header>
-          <a href="single.html" class="image"><img src="images/pic06.jpg" alt="" /></a>
+          <a href="{% url 'accommodation-escapes' %}" class="image"><img src="{% static 'images/acc.jpg' %}" alt="" /></a>
         </article>
-
-      <!-- Mini Post -->
-        <article class="mini-post">
-          <header>
-            <h3><a href="single.html">Enim nisl veroeros</a></h3>
-            <time class="published" datetime="2015-10-17">October 17, 2015</time>
-            <a href="#" class="author"><img src="images/avatar.jpg" alt="" /></a>
-          </header>
-          <a href="single.html" class="image"><img src="images/pic07.jpg" alt="" /></a>
-        </article>
-
     </div>
   </section>
 
