@@ -1,0 +1,33 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+  <title>Future Imperfect by HTML5 UP</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/pics.css' %}" />
+</head>
+<body class="is-preload">
+
+<!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header & Menu -->
+    {% include 'header_menu.html' %}
+
+    <!-- Main -->
+    {% include 'index-posts.html' %}
+
+    <!-- Sidebar -->
+    {% include 'explore_by.html' %}
+  
+<!-- Scripts -->
+  <script src="{% static 'scripts/jquery.min.js' %}"></script>
+  <script src="{% static 'scripts/browser.min.js' %}"></script>
+  <script src="{% static 'scripts/breakpoints.min.js' %}"></script>
+  <script src="{% static 'scripts/util.js' %}"></script>
+  <script src="{% static 'scripts/main.js' %}"></script>
+
+</body>
+</html>
