@@ -38,7 +38,7 @@ def home(request):
         'posts': posts,
         'activities': activities[:10]
     }
-    return render(request, 'home-test.html', context)
+    return render(request, 'home.html', context)
 
 
 def postSetup(request, posts):
