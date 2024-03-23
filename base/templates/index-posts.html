@@ -16,7 +16,7 @@
               <a href="{% url 'profile' post.author.id %}" class="author"><span class="name">{{ post.author.username}}</span><img src="{% static 'images/avatar.jpg' %}" alt="" /></a>
           </div>
       </header>
-      <a href="single.html" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
+      <a href="{% url 'blog' post.id %}" class="image featured"><img src="images/pic01.jpg" alt="" /></a>
       <p>{{ post.description }}</p>
       <footer>
           <ul class="actions">
