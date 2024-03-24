@@ -12,17 +12,6 @@ from .models import User, BlogPost, Comment, Like, City
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 
-# Application activities
-posts = BlogPost.objects.all()
-comments = Comment.objects.all()
-likes = Like.objects.all()
-activities = sorted(
-    chain(posts, comments, likes),
-    key=attrgetter('created'),
-    reverse=True
-)
-
-
 def home(request):
     """Home Page"""
     query = request.GET.get('s_query') if request.GET.get('s_query') else ''
@@ -32,17 +21,25 @@ def home(request):
         Q(title__icontains=query) |
         Q(specific_location__icontains=query)
     )
-    paginator = Paginator(posts_list, 3)
-    page = request.GET.get('page', 1)
-    posts = paginator.get_page(page)
+
+    likes = Like.objects.all()
+    comments = Like.objects.all()
+
+    # paginate the posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
     postSetup(request, posts)
+
+    # Sort activities
+    activities = sortActivities(posts, likes, comments)
 
     context = {
         'title': 'Home',
         'posts': posts,
-        'activities': activities[:10]
+        'activities': activities[:12]
     }
-    return render(request, 'home_new.html', context)
+    return render(request, 'home.html', context)
 
 
 def postSetup(request, posts):
@@ -58,6 +55,31 @@ def postSetup(request, posts):
     for post in posts:
         # Check if the user and the blogPost share the same Like object
         post.user_liked = user_likes.filter(blogPost=post).exists() if user_likes else False
+
+
+def sortActivities(posts, likes, comments):
+    """Create and return all activities"""
+    activities = sorted(
+        # chain combines the list of objects directly without creating a new list
+        chain(posts, comments, likes),
+        # attrgetter to only compare the 'created' attribute of the objects
+        # instead of the whole objects, which means it provides more control and
+        # clarity in specifying the attribute to be used for sorting
+        key=attrgetter('created'),
+        reverse=True
+    )
+    return activities
+
+
+def paginatePosts(request, posts):
+    """Paginates a list posts"""
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page', 1)
+    custom_page = request.GET.get('page-input')
+    if custom_page:
+        page = custom_page
+    posts = paginator.get_page(page)
+    return posts
 
 
 def loginPage(request):
@@ -116,24 +138,17 @@ def profilePage(request, pk):
     """Profile Page"""
     user = User.objects.get(id=int(pk))
     posts_list = BlogPost.objects.filter(author__id=int(pk))
-
-    paginator = Paginator(posts_list, 3)
-    page = request.GET.get('page', 1)
-    posts = paginator.get_page(page)
-    postSetup(request, posts)
-
     user_comments = user.comment_set.all()
     user_likes = user.like_set.all()
 
-    activities = sorted(
-        # chain combines the list of objects directly without creating a new list
-        chain(posts, user_comments, user_likes),
-        # attrgetter to only compare the 'created' attribute of the objects
-        # instead of the whole objects, which means it provides more control and
-        # clarity in specifying the attribute to be used for sorting
-        key=attrgetter('created'),
-        reverse=True
-    )
+    # paginate posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
+    postSetup(request, posts)
+
+    # Sort activities
+    activities = sortActivities(posts, user_likes, user_comments)
 
     context = {
         'title': 'Profile Page',
@@ -142,6 +157,25 @@ def profilePage(request, pk):
         'activities': activities[:10]
     }
     return render(request, 'profile.html', context)
+
+
+@login_required(login_url='login')
+def userActivities(request):
+    """User Activity Page"""
+    user = request.user
+    posts = BlogPost.objects.filter(author=user)
+    user_comments = user.comment_set.all()
+    user_likes = user.like_set.all()
+
+    # Sort activities
+    activities = sortActivities(posts, user_likes, user_comments)
+
+    context = {
+        'title': 'Profile Page',
+        'user': user,
+        'activities': activities[:10]
+    }
+    return render(request, 'user_activity.html', context)
 
 
 @login_required(login_url='login')
@@ -206,7 +240,7 @@ def blog(request, pk):
         'post': post,
         'post_comments': post_comments
     }
-    return render(request, 'blog.html', context)
+    return render(request, 'index-single-post.html', context)
 
 
 @login_required(login_url='login')
@@ -306,13 +340,23 @@ def unlikeBlog(request, blog_id):
 
 def communityFav(request):
     """Posts By Community Favorites"""
-    posts = BlogPost.objects.all().order_by('-likes')
+    posts_list = BlogPost.objects.all().order_by('-likes')
+    likes = Like.objects.all()
+    comments = Like.objects.all()
+
+    # paginate the posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
     postSetup(request, posts)
+
+    # Sort activities
+    activities = sortActivities(posts, likes, comments)
 
     context = {
         'title': 'Community Favorites',
         'posts': posts,
-        'activities': activities[:10]
+        'activities': activities[:12]
     }
     return render(request, 'home.html', context)
 
@@ -326,33 +370,53 @@ def topSpotPicks(request):
 
     context = {
         'title': 'Top Spot Picks',
-        'activities': activities[:10]
+        # 'activities': activities[:10]
     }
     return render(request, 'home.html', context)
 
 
 def postByCuisine(request):
     """Posts by Cuisine"""
-    posts = BlogPost.objects.all().order_by('-food_rating')
+    posts_list = BlogPost.objects.all().order_by('-food_rating')
+    likes = Like.objects.all()
+    comments = Like.objects.all()
+
+    # paginate the posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
     postSetup(request, posts)
+
+    # Sort activities
+    activities = sortActivities(posts, likes, comments)
 
     context = {
         'title': 'Cuisine Delights',
         'posts': posts,
-        'activities': activities[:10]
+        'activities': activities[:12]
     }
     return render(request, 'home.html', context)
 
 
 def postByAcc(request):
     """Posts By Accommodation"""
-    posts = BlogPost.objects.all().order_by('-accommodation_rating')
+    posts_list = BlogPost.objects.all().order_by('-accommodation_rating')
+    likes = Like.objects.all()
+    comments = Like.objects.all()
+
+    # paginate the posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
     postSetup(request, posts)
+
+    # Sort activities
+    activities = sortActivities(posts, likes, comments)
 
     context = {
         'title': 'Accommodation Escapes',
         'posts': posts,
-        'activities': activities[:10]
+        'activities': activities[:12]
     }
     return render(request, 'home.html', context)
 
@@ -360,20 +424,21 @@ def postByAcc(request):
 def ciyBlogs(request, pk):
     """Blogs by City Route"""
     city = get_object_or_404(City, id=int(pk))
-    posts = BlogPost.objects.filter(city=city)
+    posts_list = BlogPost.objects.filter(city=city)
     likes = []
     comments = []
-    for post in posts:
+    for post in posts_list:
         likes.extend(post.like_set.all())
         comments.extend(post.comment_set.all())
 
+    # paginate the posts
+    posts = paginatePosts(request, posts_list)
+
+    # setup likes and comments logic
     postSetup(request, posts)
 
-    activities = sorted(
-        chain(posts, comments, likes),
-        key=attrgetter('created'),
-        reverse=True
-    )
+    # Sort activities
+    activities = sortActivities(posts, likes, comments)
 
     context = {
         'title': f'{city.name} Blogs',
@@ -381,7 +446,3 @@ def ciyBlogs(request, pk):
         'activities': activities[:10]
     }
     return render(request, 'home.html', context)
-
-
-def testIndex(request):
-    return render(request, 'home_new.html')

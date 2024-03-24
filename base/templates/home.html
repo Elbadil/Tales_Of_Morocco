@@ -1,39 +1,23 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
-<style>
-    .home-container {
-        display: grid;
-        grid-template-columns: 3fr 1fr;
-    }
-</style>
+  <!-- Wrapper -->
+  <div id="wrapper">
 
-<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+    <!-- Header -->
+    {% include 'header_menu.html' %}
 
-<div class="home-container">
-    <div class="recent-blogs">
-    <h1>Recent Blogs</h1>
-    {% for post in posts %}
-        <div class="blog-post">
-            <h3><a href="{% url 'profile' post.author.id %}">@{{ post.author.username }}</a></h3>
-            <small>{{ post.created | timesince }} ago</small>
-            <h3><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h3>
-            <p>City: <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a></p>
-            <p>Location: {{ post.specific_location }}</p>
-            <p>{{ post.description }}</p>
-            <!-- like button -->
-            <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
-            <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
-            <!-- comment button -->
-            <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
-            <span>   {% if post.comments.count > 0 %}{{ post.comments.count }}{% endif %}</span></b></a>
-            <hr>
-        </div>
-    {% endfor %}
-    </div>
-    <div class="activity-feed">
-        {% include 'activity_feed.html' %}
-    </div>
-</div>
+    <!-- activity feed Sidebar -->
+    {% include 'activity_feed.html'%}
+
+    <!-- Main posts -->
+    {% include 'index-posts.html' %}
+
+    <!-- Sidebar -->
+    {% include 'explore_by.html' %}
+
+  </div>
+
+<!-- Scripts -->
 <script src="{% static 'scripts/like_post.js' %}"></script>
 {% endblock %}

@@ -56,7 +56,7 @@
         </a>
       </li>
       <li>
-        <a href="#">
+        <a href="{% url 'user-activities' %}">
           <h3>My Activity Feed</h3>
           <p>Explore Your Recent Activity</p>
         </a>
@@ -74,29 +74,7 @@
   </section>
 
   {% else %}
-  <!-- <section>
-    <ul class="links">
-      <li>
-        <a href="{% url 'profile' request.user.id %}">
-          <img class="avatar-mini" src="{{ request.user.avatar.url }}" alt="" />
-          <h3>{{ request.user.username }}</h3>
-          <p>{{ request.user.email }}</p>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <h3>Account Settings</h3>
-          <p>Customize your account settings</p>
-        </a>
-      </li>
-      <li>
-        <a href="#">
-          <h3>My Activity Feed</h3>
-          <p>Explore Your Recent Activity</p>
-        </a>
-      </li>
-    </ul>
-  </section> -->
+  <!-- <section> -->
 
   <!-- Actions -->
   <section>
