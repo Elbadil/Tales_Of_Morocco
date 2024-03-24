@@ -1,0 +1,65 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- user-activities -->
+  <div id="main">
+    <section id="user-activities">
+      <header>
+        <h2>Your Recent Activities</h2><br>
+      </header>
+    <!-- Posts List -->
+      <section>
+        <ul class="posts">
+          {% for activity in activities %}
+          {% if activity.class_name == 'Like' %}
+          <li>
+            <article>
+              <header>
+                <p><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
+                </a> Liked <b><a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a></b>
+                by <b><a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</b></a>
+                </p>
+                <time class="published">{{ activity.created | timesince }} ago</time>
+              </header>
+              <a href="{% url 'profile' activity.user.id %}" class="image circle"><img src="{{ activity.user.avatar.url }}"" alt="" /></a>
+            </article>
+          </li>
+          {% elif activity.class_name == 'Comment' %}
+          <li>
+            <article>
+              <header>
+                <p><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
+                </a> Commented On <b><a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a></b>
+                by <b><a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</b></a>
+                </p>
+                <time class="published">{{ activity.created | timesince }} ago</time>
+              </header>
+              <a href="{% url 'profile' activity.user.id %}" class="image circle"><img src="{{ activity.user.avatar.url }}"" alt="" /></a>
+            </article>
+          </li>
+          {% else %}
+          <li>
+            <article>
+              <header>
+                <p><b><a href="{% url 'profile' activity.author.id %}">{{ activity.author.username }}
+                </a></b> Posted A New Blog <b><a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a></b>
+                </p>
+                <time class="published">{{ activity.created | timesince }} ago</time>
+              </header>
+              <a href="{% url 'profile' activity.author.id %}" class="image circle"><img src="{{ activity.author.avatar.url }}"" alt="" /></a>
+            </article>
+          </li>
+          {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+    </section>
+  </div>
+</div>
+{% endblock %}

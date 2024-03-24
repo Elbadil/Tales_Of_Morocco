@@ -21,5 +21,5 @@ urlpatterns = [
     path('cuisine-delights/', views.postByCuisine, name='cuisine-delights'),
     path('accommodation-escapes/', views.postByAcc, name='accommodation-escapes'),
     path('city-blogs/<str:pk>/', views.ciyBlogs, name='city-blogs'),
-    path('test/', views.testIndex, name='test')
+    path('my-activities/', views.userActivities, name='user-activities')
 ]

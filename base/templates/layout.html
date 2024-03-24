@@ -1,47 +1,28 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 {% load static %}
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    {% if title %}
+  {% if title %}
     <title>{{ title }} | Tales Of Morocco</title>
-    {% else %}
+  {% else %}
     <title>Tales Of Morocco</title>
-    {% endif %}
+  {% endif %}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/pics.css' %}" />
 </head>
-<body>
-    <nav>
-        <h1><a href="{% url 'home' %}">TalesOfMorocco</a></h1>
-        <form method="GET" action="{% url 'home' %}">
-            <input type="text" name="s_query" placeholder="Search Blogs">
-            <button type="submit">Search</button>
-        </form>
-        <p><b>Explore by </b><a href="{% url 'community-fav' %}">Community Favorites</a> | 
-            <a href="{% url 'top-picks' %}">Top Spot Picks</a>
-            | <a href="{% url 'cuisine-delights' %}">Cuisine Delights</a> | 
-            <a href="{% url 'accommodation-escapes' %}">Accommodation Escapes</a></p>
-        <hr>
-        {% if request.user.is_authenticated %}
-            <h3><a href="{% url 'profile' user.id %}">{{ user.username }}</a></h3>
-            <h3><a href="{% url 'create-blog' %}">Post Blog</a></h3>
-            <h3><a href="{% url 'logout' %}">Logout</a></h3>
-        {% else %}
-            <h3><a href="{% url 'login' %}">Login</a></h3>
-            <h3><a href="{% url 'register' %}">Sign Up</a></h3>
-        {% endif %}
-    </nav>
-    <hr>
-    {% if messages %}
-    <ul class="messages">
-        {% for message in messages %}
-        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-        {% endfor %}
-    </ul>
-    {% endif %}
+<body class="is-preload">
+
+    <!-- content -->
     {% block content %}
-    {% endblock content %}
+    {% endblock %}
+
+    <!-- scripts -->
+    <script src="{% static 'scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'scripts/browser.min.js' %}"></script>
+    <script src="{% static 'scripts/breakpoints.min.js' %}"></script>
+    <script src="{% static 'scripts/util.js' %}"></script>
+    <script src="{% static 'scripts/main.js' %}"></script>
 </body>
 </html>

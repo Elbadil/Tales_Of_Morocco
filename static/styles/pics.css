@@ -1,25 +1,31 @@
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Raleway:400,800,900");
 
+/* activity feed */
+#activity-feed {
+  margin-left: 3em;
+  min-width: 16em;
+  width: 16em;
+}
+
 .avatar-mini {
-  width: 15%;
-  height: 15%;
+  width: 14%;
+  height: 14%;
   border-radius: 50%;
 }
 
-.checked {
-  color: orange;
+/* user activities */
+#user-activities {
+  min-width: 40em;
+  width: 40em;
 }
 
-i.fa.fa-heart.liked {
-  color: red;
-}
-
-.page-form {
+/* Pagination */
+#page-form {
   font-family: "Raleway", Helvetica, sans-serif;
   font-size: 15px;
   margin-top: 13px;
   margin-left: 240px;
-  /* margin-right:px; */
+
 }
 
 .page-input {
@@ -30,6 +36,11 @@ i.fa.fa-heart.liked {
   background-color: transparent;
   border-radius: 10px;
   border: 1px rgb(206, 205, 205) solid;
+}
+
+/* Rating Stars */
+.checked {
+  color: orange;
 }
 
 .my-btn {
@@ -46,12 +57,19 @@ i.fa.fa-heart.liked {
   cursor: pointer;
 }
 
-i.fa.fa-heart {
-  color: #c6bebc;
+/* like Functionality */
+.stats {
+  font-size: 25px;
+}
+
+i.icon.solid.fa-heart {
   cursor: pointer;
 }
 
-.comment-link {
-  text-decoration: none;
-  color: black;
+i.icon.solid.fa-heart.liked::before {
+  color: #2ebaae !important;
+}
+
+i.icon.solid.fa-heart:hover::before {
+  color: #2ebaae !important;
 }
