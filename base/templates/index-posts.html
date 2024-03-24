@@ -3,39 +3,50 @@
 <!-- Main -->
 <div id="main">
 
-    <!-- Post -->
-    {% for post in posts %}
-    <article class="post">
-      <header>
-          <div class="title">
-              <h2><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h2>
-                <p><a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a> | {{ post.specific_location }}</p>
-          </div>
-          <div class="meta">
-              <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
-              <a href="{% url 'profile' post.author.id %}" class="author"><span class="name">{{ post.author.username}}</span><img src="{{ post.author.avatar.url }}" alt="" /></a>
-          </div>
-      </header>
-      <a href="{% url 'blog' post.id %}" class="image featured"><img src="{% static 'images/cuisine.jpg' %}" alt="" /></a>
-      <p>{{ post.description }}</p>
-      <footer>
-          <ul class="actions">
-          <li><a href="{% url 'blog' post.id %}" class="button large">Continue Reading</a></li>
-          </ul>
-          <ul class="stats">
-            <li><a href="#">General</a></li>
-            <li><a href="#" class="icon solid fa-heart">{{ post.likes }}</a></li>
-            <li><a href="#" class="icon solid fa-comment">{{ post.comments.count }}</a></li>
-          </ul>
-      </footer>
-    </article>
-    {% endfor %}
+  <!-- Post -->
+  {% for post in posts %}
+  <article class="post">
+    <header>
+        <div class="title">
+            <h2><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h2>
+              <p><a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a> | {{ post.specific_location }}</p>
+        </div>
+        <div class="meta">
+            <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
+            <a href="{% url 'profile' post.author.id %}" class="author"><span class="name">{{ post.author.username}}</span><img src="{{ post.author.avatar.url }}" alt="" /></a>
+        </div>
+    </header>
+    <a href="{% url 'blog' post.id %}" class="image featured"><img src="{% static 'images/cuisine.jpg' %}" alt="" /></a>
+    <p>{{ post.description }}</p>
+    <footer>
+        <ul class="actions">
+        <li><a href="{% url 'blog' post.id %}" class="button large">Continue Reading</a></li>
+        </ul>
+        <ul class="stats">
+          <li><a href="#">General</a></li>
+          <li><a href="#" class="icon solid fa-heart">{{ post.likes }}</a></li>
+          <li><a href="#" class="icon solid fa-comment">{{ post.comments.count }}</a></li>
+        </ul>
+    </footer>
+  </article>
+  {% endfor %}
 
-    <!-- Pagination -->
-    <ul class="actions pagination">
-        <li><a href="" class="disabled button large previous">Previous Page</a></li>
-        <li><a href="#" class="button large next">Next Page</a></li>
-    </ul>
+  <!-- Pagination -->
+  <ul class="actions pagination">
+      {% if posts.has_previous %}
+        <li><a href="?page={{ posts.previous_page_number}}" class="button large previous">Previous Page</a></li>
+      {% else %}
+        <li><a href="#" class="disabled button large previous">Previous Page</a></li>
+      {% endif %}
+      {% if posts.has_next %}
+        <li><a href="?page={{ posts.next_page_number }}" class="button large next">Next Page</a></li>
+      {% else %}
+        <li><a href="#" class="disabled button large next">Next Page</a></li>
+      {% endif %}
+      <form method="GET" class="page-form" action="{% url 'home' %}">
+          Page <input type="number" class="page-input" name ="page-input" value="{{ posts.number }}"> of {{ posts.paginator.num_pages }}
+      </form>
+  </ul>
 
 </div>
 

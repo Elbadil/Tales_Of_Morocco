@@ -1,37 +1,57 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Raleway:400,800,900");
+
 .avatar-mini {
-    width: 15%;
-    height: 15%;
-    border-radius: 50%;
+  width: 15%;
+  height: 15%;
+  border-radius: 50%;
 }
 
 .checked {
-    color: orange;
+  color: orange;
 }
 
 i.fa.fa-heart.liked {
-    color: red;
+  color: red;
+}
+
+.page-form {
+  font-family: "Raleway", Helvetica, sans-serif;
+  font-size: 15px;
+  margin-top: 13px;
+  margin-left: 240px;
+  /* margin-right:px; */
+}
+
+.page-input {
+  font-family: "Raleway", Helvetica, sans-serif;
+  font-size: 15px;
+  padding-left: 10px;
+  width: 40px;
+  background-color: transparent;
+  border-radius: 10px;
+  border: 1px rgb(206, 205, 205) solid;
 }
 
 .my-btn {
-    padding: 0;
-    background-color: inherit !important;
-    border: 0 !important;
+  padding: 0;
+  background-color: inherit !important;
+  border: 0 !important;
 }
 
 .food-stars {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .accommodation-stars {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 i.fa.fa-heart {
-    color: #C6BEBC;
-    cursor: pointer;
+  color: #c6bebc;
+  cursor: pointer;
 }
 
 .comment-link {
-    text-decoration: none;
-    color: black;
+  text-decoration: none;
+  color: black;
 }

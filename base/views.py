@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.db.models import Q, Count
 from django.contrib import messages
@@ -25,12 +26,15 @@ activities = sorted(
 def home(request):
     """Home Page"""
     query = request.GET.get('s_query') if request.GET.get('s_query') else ''
-    posts = BlogPost.objects.filter(
+    
+    posts_list = BlogPost.objects.filter(
         Q(city__name__icontains=query) |
         Q(title__icontains=query) |
         Q(specific_location__icontains=query)
     )
-
+    paginator = Paginator(posts_list, 3)
+    page = request.GET.get('page', 1)
+    posts = paginator.get_page(page)
     postSetup(request, posts)
 
     context = {
@@ -38,7 +42,7 @@ def home(request):
         'posts': posts,
         'activities': activities[:10]
     }
-    return render(request, 'home.html', context)
+    return render(request, 'home_new.html', context)
 
 
 def postSetup(request, posts):
@@ -111,8 +115,11 @@ def logoutUser(request):
 def profilePage(request, pk):
     """Profile Page"""
     user = User.objects.get(id=int(pk))
-    posts = BlogPost.objects.filter(author__id=int(pk))
+    posts_list = BlogPost.objects.filter(author__id=int(pk))
 
+    paginator = Paginator(posts_list, 3)
+    page = request.GET.get('page', 1)
+    posts = paginator.get_page(page)
     postSetup(request, posts)
 
     user_comments = user.comment_set.all()
