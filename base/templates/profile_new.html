@@ -57,8 +57,8 @@
       <!-- Intro -->
         <section id="intro">
           <img src="{{ user.avatar.url }}" style="
-            width: 40%;
-            height: 40%;
+            width: 70%;
+            height: 70%;
             border-radius: 50%;
           " alt="" />
           <header>
@@ -81,11 +81,11 @@
             {% if activity.class_name == 'Like' %}
             <article class="mini-post">
               <header>
-                <h3><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}
-                </a> Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                <h3>You Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
                 by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
+                <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
               </header>
               {% if activity.blogPost.picture %}
               <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
@@ -94,11 +94,10 @@
             {% elif activity.class_name == 'Comment' %}
             <article class="mini-post">
               <header>
-                <h3><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}
-                </a> Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                <h3>You Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
-                <a href="#" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
+                <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
               </header>
               {% if activity.blogPost.picture %}
               <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
@@ -107,72 +106,19 @@
             {% else %}
             <article class="mini-post">
               <header>
-                <h3><a href="{% url 'profile' activity.author.id %}">{{ activity.author.username }}
-                </a> Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
+                <h3>You Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
+                <a href="{% url 'profile' activity.author.id %}" class="author"><img src="{{ activity.author.avatar.url }}" alt="" /></a>
               </header>
-              {% if activity.blogPost.picture %}
-              <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
+              {% if activity.picture %}
+              <a href="{% url 'blog' activity.id %}" class="image"><img src="{{ activity.picture.url }}" alt="" /></a>
               {% endif %}
             </article>
             {% endif %}
             {% endfor %}
           </div>
         </section>
-        <!-- User Activities other designe -->
-        <!-- <section>
-          <ul class="posts">
-            <h2>Recenet Activities</h2>
-            {% for activity in activities %}
-            {% if activity.class_name == 'Like' %}
-            <li>
-              <article>
-                <header>
-                  <h3><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}
-                  </a> Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
-                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
-                </h3>
-                  <time class="published">{{ activity.created | timesince }} ago</time>
-                </header>
-                {% if activity.blogPost.picture %}
-                <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
-                {% endif %}
-              </article>
-            </li>
-            {% elif activity.class_name == 'Comment' %}
-            <li>
-              <article>
-                <header>
-                  <h3><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}
-                  </a> Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
-                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
-                  </h3>
-                  <time class="published">{{ activity.created | timesince }} ago</time>
-                </header>
-                {% if activity.blogPost.picture %}
-                <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
-                {% endif %}
-              </article>
-            </li>
-            {% else %}
-            <li>
-              <article>
-                <header>
-                  <h3><a href="{% url 'profile' activity.author.id %}">{{ activity.author.username }}
-                  </a> Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
-                  </h3>
-                  <time class="published">{{ activity.created | timesince }} ago</time>
-                </header>
-                {% if activity.blogPost.picture %}
-                <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
-                {% endif %}
-              </article>
-            </li>
-            {% endif %}
-            {% endfor %}
-          </ul>
-        </section> -->
     </section>
 
   </div>
