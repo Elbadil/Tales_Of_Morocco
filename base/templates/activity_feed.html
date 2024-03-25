@@ -10,7 +10,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.user.id %}">
+            <p class="activity-content"><b><a href="{% url 'profile' activity.user.id %}">
               {% if request.user == activity.user %}
               You
               {% else %}
@@ -29,7 +29,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.user.id %}">
+            <p class="activity-content"><b><a href="{% url 'profile' activity.user.id %}">
               {% if request.user == activity.user %}
               You
               {% else %}
@@ -48,7 +48,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.author.id %}">
+            <p class="activity-content"><b><a href="{% url 'profile' activity.author.id %}">
               {% if request.user == activity.user %}
               You
               {% else %}
