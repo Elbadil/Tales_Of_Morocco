@@ -1,22 +1,38 @@
 {% extends 'layout.html' %}
 {% block content %}
-<h1>Login</h1>
-<form method="POST" action="">
-    {% csrf_token %}
-    <div>
-        <div>
-            <label>Email</label>
-            <input type="text" name="email">
-        </div>
-        <div>
-            <label>Password</label>
-            <input type="password" name="password">
-        </div>
-        <button type="submit">Login</button>
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- login Form  -->
+  <div id="main">
+    <div class="login-form">
+      <article class="post">
+        <header>
+          <div class="title">
+            <h2>Login</h2>
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div>
+                  <div>
+                      <label>Email</label>
+                      <input type="text" name="email">
+                  </div>
+                  <div>
+                      <label>Password</label>
+                      <input type="password" name="password">
+                  </div>
+                  <button type="submit">Login</button>
+              </div>
+              Don't have An Account? <a href="{% url 'register' %}">Sign Up</a>
+            </form>
+          </div>
+        </header>
+      </article>
     </div>
-</form>
-<br>
-<div>
-    Don't have An Account? <a href="{% url 'register' %}">Sign Up</a>
+  </div>
+
 </div>
 {% endblock %}

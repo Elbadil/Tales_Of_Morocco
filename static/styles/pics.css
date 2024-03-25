@@ -1,16 +1,25 @@
+@import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700|Raleway:400,800,900");
 
-/* activity feed */
-#activity-feed {
-  margin-left: 3em;
-  min-width: 16em;
-  width: 16em;
-}
-
+/* menu */
 .avatar-mini {
   width: 14%;
   height: 14%;
   border-radius: 50%;
+}
+
+/* activity feed */
+#activity-feed {
+  margin-left: 3em;
+  min-width: 15.08em;
+  width: 15.08em;
+}
+
+.activity-content {
+  font-size: 10px;
+  margin-bottom: 15px;
+  padding: 0px 2px;
+  font-family: "Raleway", Helvetica, sans-serif;
 }
 
 /* user activities */
@@ -25,7 +34,6 @@
   font-size: 15px;
   margin-top: 13px;
   margin-left: 240px;
-
 }
 
 .page-input {
@@ -72,4 +80,9 @@ i.icon.solid.fa-heart.liked::before {
 
 i.icon.solid.fa-heart:hover::before {
   color: #2ebaae !important;
+}
+
+/* login form */
+.login-form {
+  width: 24em;
 }

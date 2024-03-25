@@ -10,7 +10,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
+            <p class="activity-content"><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
             </a> Liked <b><a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a></b>
             by <b><a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</b></a>
             </p>
@@ -23,7 +23,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
+            <p class="activity-content"><b><a href="{% url 'profile' activity.user.id %}">{{ activity.user.username }}</b>
             </a> Commented On <b><a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a></b>
             by <b><a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</b></a>
             </p>
@@ -36,7 +36,7 @@
       <li>
         <article>
           <header>
-            <p><b><a href="{% url 'profile' activity.author.id %}">{{ activity.author.username }}
+            <p class="activity-content"><b><a href="{% url 'profile' activity.author.id %}">{{ activity.author.username }}
             </a></b> Posted A New Blog <b><a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a></b>
             </p>
             <time class="published">{{ activity.created | timesince }} ago</time>
