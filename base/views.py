@@ -119,6 +119,7 @@ def registerPage(request):
         form = MyUserCreationFrom(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, "Your account has been created! You can now log in")
             return redirect('login')
     context = {
         'form': form,
@@ -156,7 +157,7 @@ def profilePage(request, pk):
         'posts': posts,
         'activities': activities[:10]
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'profile_new.html', context)
 
 
 @login_required(login_url='login')
@@ -188,7 +189,8 @@ def updateUser(request):
         form = UpdateUserForm(request.POST, request.FILES, instance=user)
         if form.is_valid():
             form.save()
-            return redirect('profile', pk=int(user.id))
+            messages.success(request, 'You have successfully updated your account!')
+            return render(request, 'update-profile.html', {'form': form})
     
     context = {
         'title': 'Update Account',
@@ -201,17 +203,34 @@ def updateUser(request):
 def createBlog(request):
     """Post Blog Form"""
     form = CreateBlogForm()
+    cities = City.objects.all()
     if request.method == "POST":
-        form = CreateBlogForm(request.POST, request.FILES)
+        city_name = request.POST.get('city')
+        try:
+            city = City.objects.get(name=city_name)
+        except:
+            context = {
+                'form': CreateBlogForm(request.POST, request.FILES),
+                'title': 'Create Blog',
+                'cities': cities,
+                'incorrect_city': city_name
+            }
+            return render(request, 'create-blog.html', context)
+
+        form_data = request.POST.copy()
+        form_data['city'] = city.id
+        form = CreateBlogForm(form_data, request.FILES)
         if form.is_valid():
             blog = form.save(commit=False)
             blog.author = request.user
             blog.save()
-        return redirect('home');
+            messages.success(request, 'Your blog has been successfully created!')
+            return redirect('home')
 
     context = {
         'form': form,
-        'title': 'Create Blog'
+        'title': 'Create Blog',
+        'cities': cities
     }
     return render(request, 'create-blog.html', context)
 
@@ -247,17 +266,36 @@ def blog(request, pk):
 def updateBlog(request, pk):
     """Update Blog Page"""
     post = get_object_or_404(BlogPost, id=int(pk))
+    cities = City.objects.all()
     if request.user != post.author:
         return HttpResponse('Unauthorized')
     form = CreateBlogForm(instance=post)
     if request.method == 'POST':
-        form = CreateBlogForm(request.POST, request.FILES, instance=post);
+        city_name = request.POST.get('city')
+        try:
+            city = City.objects.get(name=city_name)
+        except:
+            context = {
+                'form': CreateBlogForm(request.POST, request.FILES),
+                'title': 'Update Blog',
+                'cities': cities,
+                'post': post,
+                'incorrect_city': city_name
+            }
+            return render(request, 'create-blog.html', context)
+
+        form_data = request.POST.copy()
+        form_data['city'] = city.id
+        form = CreateBlogForm(form_data, request.FILES, instance=post)
         form.save()
+        messages.success(request, 'Your blog has been successfully updated!')
         return redirect('blog', pk=pk)
+
     context = {
         'title': 'Update Blog',
         'form': form,
         'post': post,
+        'cities': cities
     }
     return render(request, 'create-blog.html', context)
 

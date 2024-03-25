@@ -1,95 +1,174 @@
-{% extends 'layout.html' %}
-{% load static %}
-{% block content %}
-<h1>{{ title }}</h1>
-<form method="POST" id="blog_form" action="" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div>
-    <div>
-      <label>{{ form.title.label }}</label>
-      {{ form.title }} 
-      {% if form.title.errors %} 
-      {% for error in form.title.errors %}
-      <span>{{ error }}</span>
+{% extends 'layout.html' %} {% load static %} {% block content %}
+<!-- Wrapper -->
+<div id="wrapper">
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- Create / Update Blog -->
+  <div id="main">
+    <div class="create-container">
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert {{ message.tags }}" role="alert">{{ message }}</div>
       {% endfor %}
       {% endif %}
-    </div>
-    <div>
-      <label>{{ form.city.label }}</label>
-      {{ form.city }}
-      {% if form.city.errors %}
-      {% for error in form.city.errors %}
-      <span>{{ error }}</span>
-      {% endfor %}
-      {% endif %}
-    </div>
-    <div>
-      <label>{{ form.specific_location.label }}</label>
-      {{ form.specific_location }}
-      {% if form.specific_location.errors %}
-      {% for error in form.specific_location.errors %}
-      <span>{{ error }}</span>
-      {% endfor %}
-      {% endif %}
-    </div>
-    <div>
-        <label>{{ form.description.label }}</label>
-        {{ form.description }}
-        {% if form.description.errors %}
-        {% for error in form.description.errors %}
-        <span>{{ error }}</span>
-        {% endfor %}
-        {% endif %}
+      <div class="user-form">
+        <div class="title">
+          <header>
+            <h2>{{ title }}</h2>
+          </header>
+          <form method="POST" id="blog_form" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+              <div>
+                <label>{{ form.title.label }}</label>
+                <div class="input-errors">
+                  {{ form.title }}
+                  {% if form.title.errors %}
+                  {% for error in form.title.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.city.label }}</label>
+                <div class="input-errors">
+                  <input
+                    required
+                    type="text"
+                    value="{% if incorrect_city %}{{ incorrect_city }}{% else %}{{ post.city.name }}{% endif %}"
+                    name="city"
+                    list="city-list"
+                  />
+                  <datalist id="city-list">
+                    {% for city in cities %}
+                    <option value="{{ city.name }}">{{ city.name }}</option>
+                    {% endfor %}
+                  </datalist>
+                  {% if form.city.errors %}
+                  {% for error in form.city.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.specific_location.label }}</label>
+                <div class="input-errors">
+                  {{ form.specific_location }}
+                  {% if form.specific_location.errors %}
+                  {% for error in form.specific_location.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.description.label }}</label>
+                <div class="input-errors">
+                  {{ form.description }}
+                  {% if form.description.errors %}
+                  {% for error in form.description.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.food.label }}</label>
+                <div class="input-errors">
+                  {{ form.food }}
+                  {% if post %}
+                  <input
+                    type="hidden"
+                    id="food_rating"
+                    name="food_rating"
+                    value="{{ post.food_rating }}"
+                  />
+                  {% else %}
+                  <input type="hidden" id="food_rating" name="food_rating" />
+                  {% endif %}
+                  <span
+                    class="fa fa-star food-stars checked"
+                    id="food-1"
+                  ></span>
+                  <span class="fa fa-star food-stars" id="food-2"></span>
+                  <span class="fa fa-star food-stars" id="food-3"></span>
+                  <span class="fa fa-star food-stars" id="food-4"></span>
+                  <span class="fa fa-star food-stars" id="food-5"></span>
+                  {% if form.food.errors %}
+                  {% for error in form.food.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.accommodation.label }}</label>
+                <div class="input-errors">
+                  {{ form.accommodation }}
+                  {% if post %}
+                  <input
+                    type="hidden"
+                    id="accommodation_rating"
+                    name="accommodation_rating"
+                    value="{{ post.accommodation_rating }}"
+                  />
+                  {% else %}
+                  <input
+                    type="hidden"
+                    id="accommodation_rating"
+                    name="accommodation_rating"
+                  />
+                  {% endif %}
+                  <span
+                    class="fa fa-star accommodation-stars checked"
+                    id="accommodation-1"
+                  ></span>
+                  <span
+                    class="fa fa-star accommodation-stars"
+                    id="accommodation-2"
+                  ></span>
+                  <span
+                    class="fa fa-star accommodation-stars"
+                    id="accommodation-3"
+                  ></span>
+                  <span
+                    class="fa fa-star accommodation-stars"
+                    id="accommodation-4"
+                  ></span>
+                  <span
+                    class="fa fa-star accommodation-stars"
+                    id="accommodation-5"
+                  ></span>
+                  {% if form.accommodation.errors %}
+                  {% for error in form.accommodation.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <div>
+                <label>{{ form.picture.label }}</label>
+                <div class="input-errors">
+                  {{ form.picture }}
+                  {% if form.picture.errors %}
+                  {% for error in form.picture.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                  {% endif %}
+                </div>
+              </div>
+              <button class="button large fit" type="submit">
+                {{ title }}
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
-    <div>
-      <label>{{ form.food.label }}</label>
-      {{ form.food }}
-      {% if post %}
-        <input type="hidden" id="food_rating" name="food_rating" value="{{ post.food_rating }}">
-      {% else %}
-        <input type="hidden" id="food_rating" name="food_rating">
-      {% endif %}
-      <span class="fa fa-star food-stars checked" id="food-1"></span>
-      <span class="fa fa-star food-stars" id="food-2"></span>
-      <span class="fa fa-star food-stars" id="food-3"></span>
-      <span class="fa fa-star food-stars" id="food-4"></span>
-      <span class="fa fa-star food-stars" id="food-5"></span>
-      {% if form.food.errors %}
-      {% for error in form.food.errors%}
-      <span>{{ error }}</span>
-      {% endfor %}
-      {% endif %}
     </div>
-    <div>
-      <label>{{ form.accommodation.label }}</label>
-      {{ form.accommodation }}
-      {% if post %}
-        <input type="hidden" id="accommodation_rating" name="accommodation_rating" value="{{ post.accommodation_rating }}">
-      {% else %}
-        <input type="hidden" id="accommodation_rating" name="accommodation_rating">
-      {% endif %}
-      <span class="fa fa-star accommodation-stars checked" id="accommodation-1"></span>
-      <span class="fa fa-star accommodation-stars" id="accommodation-2"></span>
-      <span class="fa fa-star accommodation-stars" id="accommodation-3"></span>
-      <span class="fa fa-star accommodation-stars" id="accommodation-4"></span>
-      <span class="fa fa-star accommodation-stars" id="accommodation-5"></span>
-      {% if form.accommodation.errors %}
-      {% for error in form.accommodation.errors %}
-      <span>{{ error }}</span>
-      {% endfor %}
-      {% endif %}
-    </div>
-    <div>
-      <label>{{ form.picture.label }}</label>
-      {{ form.picture }}
-      {% if form.picture.errors %}
-      {% for error in form.picture.errors %}
-      <span>{{ error }}</span>
-      {% endfor %}
-      {% endif %}
-    </div>
-    <button type="submit">{{ title }}</button>
   </div>
-</form>
+</div>
 <script src="{% static 'scripts/ratings.js' %}"></script>
 {% endblock %}

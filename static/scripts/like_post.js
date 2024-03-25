@@ -14,11 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (heart.classList.contains("liked")) {
         heart.classList.remove("liked");
         likesCount -= 1;
-        if (likesCount == 0) {
-          likes.innerHTML = '';
-        } else {
-          likes.innerHTML = `${likesCount}`;
-        }
+        likes.innerHTML = `${likesCount}`;
         fetch(`/unlike/${postId}/`, {
           method: "POST",
           headers: {
