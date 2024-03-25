@@ -156,7 +156,7 @@ def profilePage(request, pk):
         'posts': posts,
         'activities': activities[:10]
     }
-    return render(request, 'profile.html', context)
+    return render(request, 'profile_new.html', context)
 
 
 @login_required(login_url='login')
