@@ -356,6 +356,8 @@ def communityFav(request):
     context = {
         'title': 'Community Favorites',
         'posts': posts,
+        'filter': 'Blogs By Community Favorites',
+        'slogan': 'Uncover the gems loved by our community.',
         'activities': activities[:12]
     }
     return render(request, 'home.html', context)
@@ -393,6 +395,8 @@ def postByCuisine(request):
     context = {
         'title': 'Cuisine Delights',
         'posts': posts,
+        'filter': 'Blogs By Cuisine Delights',
+        'slogan': 'Discover culinary hotspots across Morocco.',
         'activities': activities[:12]
     }
     return render(request, 'home.html', context)
@@ -416,6 +420,8 @@ def postByAcc(request):
     context = {
         'title': 'Accommodation Escapes',
         'posts': posts,
+        'filter': 'Blogs By Accommodation Escapes',
+        'slogan': 'Find your perfect retreat in Morocco.',
         'activities': activities[:12]
     }
     return render(request, 'home.html', context)
@@ -443,6 +449,8 @@ def ciyBlogs(request, pk):
     context = {
         'title': f'{city.name} Blogs',
         'posts': posts,
+        'filter': f'{city.name} Blogs',
+        'slogan': f'Discover the essence of {city.name}. Dive into a tapestry of experiences.',
         'activities': activities[:10]
     }
     return render(request, 'home.html', context)
