@@ -15,10 +15,6 @@
   align-items: center;
 }
 
-/* .contact > * {
-  margin-left: 32%;
-} */
-
 .contact-info {
   flex: 1;
   display: flex;
