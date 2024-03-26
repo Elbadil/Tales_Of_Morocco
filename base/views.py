@@ -23,7 +23,7 @@ def home(request):
     )
 
     likes = Like.objects.all()
-    comments = Like.objects.all()
+    comments = Comment.objects.all()
 
     # paginate the posts
     posts = paginatePosts(request, posts_list)
@@ -259,7 +259,7 @@ def blog(request, pk):
         'post': post,
         'post_comments': post_comments
     }
-    return render(request, 'index-single-post.html', context)
+    return render(request, 'blog.html', context)
 
 
 @login_required(login_url='login')
@@ -308,6 +308,7 @@ def deleteBlog(request, pk):
         return HttpResponse('Unauthorized')
     if request.method == 'POST':
         post.delete()
+        messages.success(request, "Your Blog has been successfully deleted!")
         return redirect('home')
 
     context = {
@@ -343,6 +344,7 @@ def deleteComment(request, pk):
         return HttpResponse('Unauthorized')
     if request.method == "POST":
         comment.delete()
+        messages.success(request, "Your Comment has been successfully deleted!")
         return redirect('blog', pk=comment.blogPost.id)
 
     context = {

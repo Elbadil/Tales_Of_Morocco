@@ -1,46 +1,178 @@
-{% extends 'layout.html' %}
+<!DOCTYPE HTML>
 {% load static %}
-{% block content %}
-<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
-<div class="blog-post">
-    <h3><a href="{% url 'profile' post.author.id %}">@{{ post.author.username }}</a></h3>
-    <small>{{ post.created | timesince }} ago</small>
-    {% if request.user == post.author %}
-        <a href="{% url 'update-blog' post.id %}">update</a>
-        <a href="{% url 'delete-blog' post.id %}">delete</a>
-    {% endif %}
-    <h3>{{ post.title }}</h3>
-    <p>City: <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a></p>
-    <p>Location: {{ post.specific_location }}</p>
-    <p>{{ post.description }}</p>
-    <!-- like button -->
-    <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
-    <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
-    <!-- comment button -->
-    <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
-    <span>   {% if post_comments.count > 0 %}{{ post_comments.count }}{% endif %}</span></b></a>
-    <hr>
-    <!-- Comment section -->
-    <h3>Comments</h3>
-    {% for comment in post_comments %}
-        <h4><a href="{% url 'profile' comment.user.id %}">@{{ comment.user.username }}</a></h4>
-        {% if comment.edited %}
-            <small>{{ comment.created | timesince }} ago - Edited</small>
-        {% else %}
-            <small>{{ comment.created | timesince }} ago</small>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/pics.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  {% if title %}
+    <title>{{ title }} | Tales Of Morocco</title>
+  {% else %}
+    <title>Tales Of Morocco</title>
+  {% endif %}
+</head>
+  <body class="single is-preload">
+    <!-- Wrapper -->
+    <div id="wrapper">
+      <!-- Header & Menu -->
+      {% include 'header_menu.html' %}
+
+      <!-- Main -->
+      <div id="main">
+        {% if messages %}
+        {% for message in messages %}
+          <div class="alert {{ message.tags }}" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
         {% endif %}
-        {% if request.user == comment.user %}
-            <a href="{% url 'update-comment' comment.id %}">update</a>
-            <a href="{% url 'delete-comment' comment.id %}">delete</a>
-        {% endif %}
-        <p>{{ comment.body }}</p>
-        <hr>
-    {% endfor %}
-    <!-- Comment Field -->
-    <form method="POST" action="">
-        {% csrf_token %}
-        <input type="text" name="body" placeholder="Add Comment">
-    </form>
-</div>
-<script src="{% static 'scripts/like_post.js' %}"></script>
-{% endblock %}
+        <!-- Post -->
+        <input type="hidden" id="csrf-token" value="{{ csrf_token }}" />
+        <article class="post">
+          <header>
+            <div class="title">
+              <h2><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h2>
+              <p><a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a>
+                | {{ post.specific_location }}
+              </p>
+              {% if request.user == post.author %}
+              <p class="update-delete">
+                <a href="{% url 'update-blog' post.id %}" class="no-underline">
+                  <span class="material-symbols-outlined">
+                  edit
+                  </span>
+                </a>
+                <a href="{% url 'delete-blog' post.id %}" class="no-underline">
+                  <span class="material-symbols-outlined">
+                  delete
+                  </span>
+                </a>
+              </p>
+              {% endif %}
+            </div>
+            <div class="meta">
+              <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
+              <a href="{% url 'profile' post.author.id %}" class="author">
+                <span class="name">{{ post.author.username }}</span>
+                <img src="{{ post.author.avatar.url }}" alt=""/></a>
+            </div>
+          </header>
+          <!-- Post Picture -->
+          {% if post.picture %}
+          <span class="image featured"><img src="{{ post.picture.url }}" alt=""/></span>
+          {% else %}
+          <span class="image featured"><img src="{% static 'images/pic01.jpg' %}" alt=""/></span>
+          {% endif %}
+          <p>{{ post.description }}</p>
+          <footer>
+            <ul class="stats">
+              <!-- Like Icon -->
+              <li>
+                <i class="icon solid fa-heart {% if post.user_liked %}liked{% endif %}"
+                data-post-id="{{ post.id }}"></i><span id="like-{{ post.id }}">{{ post.likes }}</span>
+              </li>
+              <!-- Comment Icon -->
+              <li>
+                <a href="#" class="icon solid fa-comment">{{ post_comments.count }}</a>
+              </li>
+            </ul>
+          </footer>
+          <span>
+            <!-- Comments -->
+            {% for comment in post_comments %}
+            <div class="user-comment">
+              <div class="profile-comment">
+                <div>
+                  <img class="avatar-mini" src="{{ comment.user.avatar.url }}" alt="" />
+                </div>
+                <div class="user-username">
+                  <h4>
+                    <a href="{% url 'profile' comment.user.id %}">{{ comment.user.username }}</a>
+                  </h4>
+                </div>
+              </div>
+              <div class="up-del-comment">
+                <div>
+                  <small style="font-size: 15px;">
+                    {{ comment.created | timesince }} ago
+                    {% if comment.edited %} - Edited{% endif %}
+                  </small>
+                </div>
+                {% if request.user == comment.user %}
+                <div>
+                  <a href="{% url 'update-comment' comment.id %}" class="comment-a">
+                    <span class="material-symbols-outlined small">
+                      edit
+                    </span>
+                  </a>
+                  <a href="{% url 'delete-comment' comment.id %}">
+                    <span class="material-symbols-outlined small" class="comment-a">
+                      delete
+                    </span>
+                  </a>
+                </div>
+                {% endif %}
+              </div>
+            </div>
+            <p>{{ comment.body }}</p>
+            <hr />
+            {% endfor %}
+            <!-- Comment Field -->
+            {% if request.user.is_authenticated %}
+            <form method="POST" action="">
+              {% csrf_token %}
+              <div class="comment-field">
+                <div>
+                  <input type="text" name="body" placeholder="Write Comment" />
+                </div>
+                <div>
+                  <button type="submit">
+                    <span class="material-symbols-outlined arrow">
+                    send
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </form>
+            {% endif %}
+          </span>
+        </article>
+      </div>
+      <!-- Footer -->
+      <section id="footer">
+        <ul class="icons">
+          <li>
+            <a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a>
+          </li>
+          <li>
+            <a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+          </li>
+          <li>
+            <a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a>
+          </li>
+          <li>
+            <a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a>
+          </li>
+          <li>
+            <a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a>
+          </li>
+        </ul>
+        <p class="copyright">
+          &copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>.
+          Images: <a href="http://unsplash.com">Unsplash</a>.
+        </p>
+      </section>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static 'scripts/jquery.min.js' %}"></script>
+    <script src="{% static 'scripts/browser.min.js' %}"></script>
+    <script src="{% static 'scripts/breakpoints.min.js' %}"></script>
+    <script src="{% static 'scripts/util.js' %}"></script>
+    <script src="{% static 'scripts/main.js' %}"></script>
+    <script src="{% static 'scripts/like_post.js' %}"></script>
+  </body>
+</html>
