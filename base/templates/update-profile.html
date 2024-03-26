@@ -1,20 +1,48 @@
 {% extends 'layout.html' %}
 {% block content %}
-<form method="POST" action="" enctype="multipart/form-data">
-  {% csrf_token %}
-  <div>
-      {% for field in form %}
-      <div>
-          <label>{{ field.label }}</label>
-          {{ field }}
-          {% if field.errors %}
-              {% for error in field.errors %}
-              <span>{{ error }}</span>
-              {% endfor %}
-          {% endif %}
-      </div>
+<!-- Wrapper -->
+<div id="wrapper">
+
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- update user form -->
+  <div id="main">
+    <div class="form-container">
+      {% if messages %}
+      {% for message in messages %}
+        <div class="alert {{ message.tags }}" role="alert">
+          {{ message }}
+        </div>
       {% endfor %}
-      <button type="submit">Update</button>
+      {% endif %}
+      <div class="user-form">
+        <div class="title">
+          <header>
+          <h2>Account Settings</h2>
+          </header>
+          <form method="POST" action="" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div>
+              {% for field in form %}
+              <div>
+                  <label>{{ field.label }}</label>
+                  <div class="input-errors">
+                    {{ field }}
+                    {% if field.errors %}
+                      {% for error in field.errors %}
+                      <span class="form-error">{{ error }}</span>
+                      {% endfor %}
+                    {% endif %}
+                  </div>
+              </div>
+              {% endfor %}
+              <button class="button large fit" type="submit">Update Account</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
   </div>
-</form>
+</div>
 {% endblock content %}

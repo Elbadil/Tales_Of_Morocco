@@ -1,22 +1,40 @@
-{% extends 'layout.html' %}
-{% block content %}
-<h1>Sign Up</h1>
-<form method="POST" action="">
-    {% csrf_token %}
-    <div>
-        {% for field in form %}
-        <div>
-            <label>{{ field.label }}</label>
-            {{ field }}
-            {% if field.errors %}
-                {% for error in field.errors %}
-                <span>{{ error }}</span>
-                {% endfor %}
-            {% endif %}
+{% extends 'layout.html' %} {% block content %}
+<!-- Wrapper -->
+<div id="wrapper">
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- login Form  -->
+  <div id="main">
+    <div class="form-container">
+      <div class="user-form">
+        <div class="title">
+          <header>
+          <h2>Sign Up</h2>
+          </header>
+          <form method="POST" action="">
+            {% csrf_token %}
+            <div>
+              {% for field in form %}
+              <div>
+                <label>{{ field.label }}</label>
+                <div class="input-errors">
+                {{ field }} 
+                {% if field.errors %} 
+                  {% for error in field.errors %}
+                  <span class="form-error">{{ error }}</span>
+                  {% endfor %}
+                {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+              <button class="button large fit" type="submit">Sign Up</button>
+            </div>
+            <span class="form-redirect">Already Have An Account? <a href="{% url 'login'%}">Login</a></span>
+          </form>
         </div>
-        {% endfor %}
-        <button type="submit">Sign Up</button>
-        <p>Already Have An Account? <a href="{% url 'login'%}">Login</a></p>
+      </div>
     </div>
-</form>
+  </div>
+</div>
 {% endblock %}

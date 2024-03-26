@@ -5,6 +5,17 @@
 
 <div id="main">
   <!-- Post -->
+  {% if filter %}
+  <header>
+    <h2>{{ filter }}</h2>
+    <p>{{ slogan }}</a></p>
+  </header>
+  {% endif %}
+  {% if messages %}
+    {% for message in messages %}
+      <div class="alert {{ message.tags }}" role="alert">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
   {% for post in posts %}
   <article class="post">
     <header>
