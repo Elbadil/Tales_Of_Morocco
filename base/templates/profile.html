@@ -1,46 +1,158 @@
 {% extends 'layout.html' %}
 {% load static %}
 {% block content %}
-<style>
-  .profile-container {
-    display: grid;
-    grid-template-columns: 3fr 1fr;
-  }
-</style>
+  <!-- Wrapper -->
+  <div id="wrapper">
 
-<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+    <!-- Header -->
+    {% include 'header_menu.html' %}
 
-<div class="profile-container">
-  <div class="user-posts">
-    <h1><a href="{% url 'profile' user.id %}">@{{ user.username }}</a></h1>
-    {% if user.bio %}
-    <h5>{{ user.bio }}</h5>
-    {% endif %}
-    {% if request.user == user %}
-    <h3><a href="{% url 'update-profile' %}">Edit profile</a></h3>
-    {% endif %}
-    <div>
+    <!-- User Posts -->
+    <input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+    <div id="main">
       {% for post in posts %}
-      <div>
-        <small>{{ post.created | timesince }} ago</small>
-          <h3><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h3>
-          <p>City: <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a></p>
-          <p>Location: {{ post.specific_location }}</p>
-          <p>{{ post.description }}</p>
-          <!-- like button -->
-          <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
-          <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
-          <!-- comment button -->
-          <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
-          <span>   {% if post.comments.count > 0 %}{{ post.comments.count }}{% endif %}</span></b></a>
-          <hr>
-      </div>
+      <article class="post">
+        <header>
+          <div class="title">
+            <h2><a href="{% url 'blog' post.id %}">{{ post.title }}</a></h2>
+            <p>
+              <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a> | {{post.specific_location }}
+            </p>
+          </div>
+          <div class="meta">
+            <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
+            <a href="{% url 'profile' post.author.id %}" class="author">
+              <span class="name">{{ post.author.username}}</span>
+              <img src="{{ post.author.avatar.url }}" alt=""/></a>
+          </div>
+        </header>
+        {% if post.picture %}
+        <a href="{% url 'blog' post.id %}" class="image featured">
+          <img src="{{ post.picture.url }}" alt=""/></a>
+        {% else %}
+        <a href="{% url 'blog' post.id %}" class="image featured">
+          <img src="{% static 'images/cuisine.jpg' %}" alt=""/></a>
+        {% endif %}
+        <p>{{ post.short_description }}</p>
+        <footer>
+          <ul class="actions">
+            <li>
+              <a href="{% url 'blog' post.id %}" class="button large">Continue Reading</a>
+            </li>
+          </ul>
+          <ul class="stats">
+            <li>
+              <i class="icon solid fa-heart {% if post.user_liked %}liked{% endif %}"
+              data-post-id="{{ post.id }}"></i><span id="like-{{ post.id }}">{{ post.likes }}</span>
+            </li>
+            <li>
+              <a href="{% url 'blog' post.id %}" class="icon solid fa-comment">{{ post.comments.count }}</a>
+            </li>
+          </ul>
+        </footer>
+      </article>
       {% endfor %}
     </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+      <!-- Intro -->
+        <section id="intro">
+          <img src="{{ user.avatar.url }}" style="
+            width: 70%;
+            height: 70%;
+            border-radius: 50%;
+          " alt="" />
+          <header>
+            <div class="profile-username">
+              <h2>{{ user.username }}</h2>
+            </div>
+            {% if user.bio %}
+            <p>{{ user.bio }}</p>
+            {% endif %}
+            {% if request.user == user %}
+            <h4><a href="{% url 'create-blog' %}">Post a new blog</a></h4>
+            <h4><a href="{% url 'update-profile' %}">Edit profile</a></h4>
+            {% endif %}
+          </header>
+        </section>
+      <!-- User Activities -->
+        <section>
+          <div class="mini-posts">
+            <h2>Recent Activities</h2>
+            <hr>
+            {% for activity in activities %}
+            {% if activity.class_name == 'Like' %}
+            <article class="mini-post">
+              <header>
+                <h3>
+                  <a href="{% url 'profile' activity.user.id %}">
+                  {% if request.user == activity.user %}
+                  You
+                  {% else %}
+                  {{ activity.user.username }}
+                  {% endif %}
+                  </a>
+                   Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
+                </h3>
+                <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
+                <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
+              </header>
+              {% if activity.blogPost.picture %}
+              <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
+              {% endif %}
+            </article>
+            {% elif activity.class_name == 'Comment' %}
+            <article class="mini-post">
+              <header>
+                <h3>
+                  <a href="{% url 'profile' activity.user.id %}">
+                  {% if request.user == activity.user %}
+                  You
+                  {% else %}
+                  {{ activity.user.username }}
+                  {% endif %}
+                  </a>
+                   Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
+                </h3>
+                <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
+                <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
+              </header>
+              {% if activity.blogPost.picture %}
+              <a href="{% url 'blog' activity.blogPost.id %}" class="image"><img src="{{ activity.blogPost.picture.url }}" alt="" /></a>
+              {% endif %}
+            </article>
+            {% else %}
+            <article class="mini-post">
+              <header>
+                <h3>
+                  <a href="{% url 'profile' activity.author.id %}">
+                  {% if request.user == activity.author %}
+                  You
+                  {% else %}
+                  {{ activity.author.username }}
+                  {% endif %}
+                  </a>
+                   Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
+                </h3>
+                <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
+                <a href="{% url 'profile' activity.author.id %}" class="author"><img src="{{ activity.author.avatar.url }}" alt="" /></a>
+              </header>
+              {% if activity.picture %}
+              <a href="{% url 'blog' activity.id %}" class="image"><img src="{{ activity.picture.url }}" alt="" /></a>
+              {% endif %}
+            </article>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+    </section>
+
   </div>
-  <div class="user-activities">
-    {% include 'activity_feed.html' %}
-  </div>
-</div>
+
+<!-- Scripts -->
 <script src="{% static 'scripts/like_post.js' %}"></script>
-{% endblock content %}
+{% endblock %}

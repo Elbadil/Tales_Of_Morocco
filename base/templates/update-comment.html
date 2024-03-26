@@ -1,7 +1,30 @@
 {% extends 'layout.html' %}
 {% block content %}
-<form method="POST" action="">
-    {% csrf_token %}
-    <input type="text" name="body" value="{{ comment.body }}">
-</form>
+<div id="wrapper">
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- Update Form -->
+  <div id="main">
+    <div class="update-container">
+      <div class="update-form">
+        <header>
+          <h2>Update Comment</h2>
+        </header>
+        <form method="POST" action="">
+            {% csrf_token %}
+            <input id="update-input" type="text" name="body" value="{{ comment.body }}">
+            <ul class="actions">
+              <li>
+                <button class="button fit" type="submit">Update</button>
+              </li>
+              <li>
+                <a href="{{ request.META.HTTP_REFERER }}" class="button fit red">Cancel</a>
+              </li>
+            </ul>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}

@@ -39,7 +39,7 @@
     <a href="{% url 'blog' post.id %}" class="image featured">
       <img src="{% static 'images/cuisine.jpg' %}" alt=""/></a>
     {% endif %}
-    <p>{{ post.description }}</p>
+    <p>{{ post.short_description }}</p>
     <footer>
       <ul class="actions">
         <li>

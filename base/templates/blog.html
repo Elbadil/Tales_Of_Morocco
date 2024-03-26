@@ -66,7 +66,18 @@
           {% else %}
           <span class="image featured"><img src="{% static 'images/pic01.jpg' %}" alt=""/></span>
           {% endif %}
+          <!-- post description -->
           <p>{{ post.description }}</p>
+          <!-- post food and rating -->
+          {% if post.food %}
+          <p>
+            <b>Food Dishes and Delights:</b> {{ post.food }} ({{ post.food_rating }}/5)<br>
+          {% endif %}
+          <!-- post accommodation and rating -->
+          {% if post.accommodation %}
+            <b>Accommodation Experience:</b> {{ post.accommodation }} ({{ post.accommodation_rating}}/5)
+          {% endif %}
+          </p>
           <footer>
             <ul class="stats">
               <!-- Like Icon -->
@@ -80,13 +91,18 @@
               </li>
             </ul>
           </footer>
+          
           <span>
             <!-- Comments -->
             {% for comment in post_comments %}
             <div class="user-comment">
               <div class="profile-comment">
                 <div>
-                  <img class="avatar-mini" src="{{ comment.user.avatar.url }}" alt="" />
+                  <h4>
+                    <a href="{% url 'profile' comment.user.id %}">
+                      <img class="avatar-mini" src="{{ comment.user.avatar.url }}" alt="" />
+                    </a>
+                  </h4>
                 </div>
                 <div class="user-username">
                   <h4>
