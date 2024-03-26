@@ -21,6 +21,9 @@
           </div>
           <div class="meta">
             <time class="published" datetime="2015-11-01">{{ post.created | date }}</time>
+            <a href="{% url 'profile' post.author.id %}" class="author">
+              <span class="name">{{ post.author.username}}</span>
+              <img src="{{ post.author.avatar.url }}" alt=""/></a>
           </div>
         </header>
         {% if post.picture %}
@@ -81,8 +84,16 @@
             {% if activity.class_name == 'Like' %}
             <article class="mini-post">
               <header>
-                <h3>You Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
-                by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
+                <h3>
+                  <a href="{% url 'profile' activity.user.id %}">
+                  {% if request.user == activity.user %}
+                  You
+                  {% else %}
+                  {{ activity.user.username }}
+                  {% endif %}
+                  </a>
+                   Liked <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
                 <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
@@ -94,7 +105,16 @@
             {% elif activity.class_name == 'Comment' %}
             <article class="mini-post">
               <header>
-                <h3>You Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                <h3>
+                  <a href="{% url 'profile' activity.user.id %}">
+                  {% if request.user == activity.user %}
+                  You
+                  {% else %}
+                  {{ activity.user.username }}
+                  {% endif %}
+                  </a>
+                   Commented On <a href="{% url 'blog' activity.blogPost.id %}">"{{ activity.blogPost.title }}"</a>
+                  by <a href="{% url 'profile' activity.blogPost.author.id %}">{{ activity.blogPost.author.username }}</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
                 <a href="{% url 'profile' activity.blogPost.author.id %}" class="author"><img src="{{ activity.user.avatar.url }}" alt="" /></a>
@@ -106,7 +126,15 @@
             {% else %}
             <article class="mini-post">
               <header>
-                <h3>You Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
+                <h3>
+                  <a href="{% url 'profile' activity.author.id %}">
+                  {% if request.user == activity.author %}
+                  You
+                  {% else %}
+                  {{ activity.author.username }}
+                  {% endif %}
+                  </a>
+                   Posted A New Blog <a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a>
                 </h3>
                 <time class="published" datetime="2015-10-20">{{ activity.created | timesince }} ago</time>
                 <a href="{% url 'profile' activity.author.id %}" class="author"><img src="{{ activity.author.avatar.url }}" alt="" /></a>
