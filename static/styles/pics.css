@@ -3,8 +3,8 @@
 
 /* menu */
 .avatar-mini {
-  width: 14%;
-  height: 14%;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
@@ -140,4 +140,75 @@ i.icon.solid.fa-heart:hover::before {
   margin: 2px 0px 20px 2px;
   padding: 10px 15px;
   background-color: #2ebaae;
+}
+
+/* update delete */
+.update-delete a.no-underline {
+  text-decoration: none !important;
+  margin-right: 5px;
+}
+
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 30
+}
+
+.material-symbols-outlined.small {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 10
+}
+
+a.comment-a {
+  text-decoration: none !important;
+  margin-left: 13px;
+}
+
+/* Comments */
+.user-comment {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}          
+
+.profile-comment {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.user-username {
+  margin-left: 10px;
+}
+
+.up-del-comment {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+/* Comment Field */
+
+.comment-field {
+  display: flex;
+  justify-content: flex-start;
+  text-align: center;
+}
+
+.comment-field button {
+  height: 81%;
+}
+
+.comment-field input {
+  width: 73em;
+}
+
+.material-symbols-outlined.arrow {
+  padding-top: 10px;
+  padding-bottom: 10px;
 }

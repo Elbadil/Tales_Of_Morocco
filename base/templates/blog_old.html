@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+<input type="hidden" id="csrf-token" value="{{ csrf_token }}">
+<div class="blog-post">
+    <h3><a href="{% url 'profile' post.author.id %}">@{{ post.author.username }}</a></h3>
+    <small>{{ post.created | timesince }} ago</small>
+    {% if request.user == post.author %}
+        <a href="{% url 'update-blog' post.id %}">update</a>
+        <a href="{% url 'delete-blog' post.id %}">delete</a>
+    {% endif %}
+    <h3>{{ post.title }}</h3>
+    <p>City: <a href="{% url 'city-blogs' post.city.id %}">{{ post.city }}</a></p>
+    <p>Location: {{ post.specific_location }}</p>
+    <p>{{ post.description }}</p>
+    <!-- like button -->
+    <i class="fa fa-heart {% if post.user_liked %}liked{% endif %}" data-post-id="{{ post.id }}"></i>
+    <b><span id="like-{{ post.id }}">{% if post.likes > 0 %}{{ post.likes }}{% endif %}</span>
+    <!-- comment button -->
+    <a class="comment-link" href="{% url 'blog' post.id %}"><i class="fa fa-comments-o"></i>
+    <span>   {% if post_comments.count > 0 %}{{ post_comments.count }}{% endif %}</span></b></a>
+    <hr>
+    <!-- Comment section -->
+    <h3>Comments</h3>
+    {% for comment in post_comments %}
+        <h4><a href="{% url 'profile' comment.user.id %}">@{{ comment.user.username }}</a></h4>
+        {% if comment.edited %}
+            <small>{{ comment.created | timesince }} ago - Edited</small>
+        {% else %}
+            <small>{{ comment.created | timesince }} ago</small>
+        {% endif %}
+        {% if request.user == comment.user %}
+            <a href="{% url 'update-comment' comment.id %}">update</a>
+            <a href="{% url 'delete-comment' comment.id %}">delete</a>
+        {% endif %}
+        <p>{{ comment.body }}</p>
+        <hr>
+    {% endfor %}
+    <!-- Comment Field -->
+    <form method="POST" action="">
+        {% csrf_token %}
+        <input type="text" name="body" placeholder="Add Comment">
+    </form>
+</div>
+<script src="{% static 'scripts/like_post.js' %}"></script>
+{% endblock %}
