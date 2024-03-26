@@ -46,6 +46,7 @@ def postSetup(request, posts):
     """sets up all necessary posts logic"""
     for post in posts:
         post.comments = post.comment_set.all()
+        post.short_description = f"{post.description[:430]}..."
 
     user_likes = None;
     if request.user.is_authenticated:
@@ -157,7 +158,7 @@ def profilePage(request, pk):
         'posts': posts,
         'activities': activities[:10]
     }
-    return render(request, 'profile_new.html', context)
+    return render(request, 'profile.html', context)
 
 
 @login_required(login_url='login')
@@ -328,6 +329,7 @@ def updateComment(request, pk):
         comment.body = request.POST.get('body')
         comment.edited = True
         comment.save()
+        messages.success(request, "Your Comment has been successfully Updated!")
         return redirect('blog', pk=comment.blogPost.id)
     context = {
         'title': f'Update Comment "{comment.body[:5]}.."',

@@ -1,9 +1,27 @@
 {% extends 'layout.html' %}
 {% block content %}
-<form method="POST" action="">
-    {% csrf_token %}
-    <p>Are you sure you want to delete "{{ obj }}"?</p>
-    <input type="submit" value="Confirm"></input>
-    <a href="{{ request.META.HTTP_REFERER }}">Cancel</a>
-</form>
+<div id="wrapper">
+  <!-- Header -->
+  {% include 'header_menu.html' %}
+
+  <!-- Delete Form -->
+  <div id="main">
+    <div class="form-container">
+      <div class="delete-form">
+        <form method="POST" action="">
+          {% csrf_token %}
+          <p>Are you sure you want to delete "{{ obj }}"?</p>
+          <ul class="actions">
+            <li>
+              <button class="button large fit" type="submit">Confirm</button>
+            </li>
+            <li>
+              <a href="{{ request.META.HTTP_REFERER }}" class="button large fit red">Cancel</a>
+            </li>
+          </ul> 
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
