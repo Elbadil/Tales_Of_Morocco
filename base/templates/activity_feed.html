@@ -49,10 +49,10 @@
         <article>
           <header>
             <p class="activity-content"><b><a href="{% url 'profile' activity.author.id %}">
-              {% if request.user == activity.user %}
+              {% if request.user == activity.author %}
               You
               {% else %}
-              {{ activity.user.username }}
+              {{ activity.author.username }}
               {% endif %}
             </a></b> Posted A New Blog <b><a href="{% url 'blog' activity.id %}">"{{ activity.title }}"</a></b>
             </p>
