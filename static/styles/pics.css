@@ -8,6 +8,26 @@
   border-radius: 50%;
 }
 
+/* Contact us */
+.contacts {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.contact-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-info img {
+  width: 10em;
+  height: 10em;
+  border-radius: 50%;
+}
+
 /* activity feed */
 #activity-feed {
   margin-left: 3em;
