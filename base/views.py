@@ -492,3 +492,11 @@ def ciyBlogs(request, pk):
         'activities': activities[:10]
     }
     return render(request, 'home.html', context)
+
+def aboutPage(request):
+    """About Page"""
+    return render(request, 'about.html')
+
+def contactUsPage(request):
+    """About Page"""
+    return render(request, 'contact_us.html')

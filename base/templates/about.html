@@ -1,0 +1,50 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+    {% include 'header_menu.html' %}
+
+    <!-- Main -->
+    <div id="main">
+      <!-- About us -->
+      <div class="post">
+        <h2>About us</h2>
+        <hr>
+        <p>Maecenas condimentum, urna vel mattis faucibus, quam justo eleifend diam, sed varius purus lacus nec turpis. Integer ac neque fermentum, malesuada velit eget, tincidunt lorem. Phasellus suscipit aliquam metus, vitae ultricies libero finibus ac. Nullam sed odio vitae risus ultrices efficitur id at mauris. Cras aliquet elit nec neque lacinia tempor. Integer nec massa sit amet odio dapibus tincidunt. Sed varius enim non quam posuere, at viverra lorem tempor. Vivamus non libero vitae velit dictum eleifend. Suspendisse potenti. Vivamus nec tellus sit amet est interdum iaculis non sed nulla. Sed pretium efficitur est nec facilisis. Maecenas fringilla libero odio, non fermentum nisl vehicula et. Donec elementum tincidunt augue, non suscipit sem molestie eget.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, quam vitae faucibus ultricies, erat elit rhoncus justo, a fermentum elit velit vel nunc. Sed ullamcorper ultrices tellus, eu tempus enim dictum nec. Integer sed consectetur nulla, vitae hendrerit lorem. Phasellus ultricies augue sed risus suscipit, vitae faucibus lectus aliquam. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Proin luctus lacus vel ipsum convallis, sit amet sodales ante lacinia. Vivamus ac neque id tortor feugiat varius eu et ipsum. Nullam sit amet consequat neque</p>
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+      <!-- Intro -->
+      <section id="intro">
+        <a href="#" class="logo"><img src="{% static 'images/logo.jpg' %}" alt="" /></a>
+        <header>
+          <h2>Tales Of Morocco</h2>
+          <p>Discover Morocco, Share Your Story, Inspire Adventure.</a></p>
+        </header>
+      </section>
+
+      <!-- Footer -->
+      <section id="footer">
+        <ul class="icons">
+          <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+          <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+          <li><a href="#" class="icon solid fa-rss"><span class="label">RSS</span></a></li>
+          <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+        </ul>
+        <p class="copyright">&copy; Untitled. Design: <a href="http://html5up.net">HTML5 UP</a>. Images: <a href="http://unsplash.com">Unsplash</a>.</p>
+      </section>
+
+    </section>
+
+  </div>
+
+{% endblock %}

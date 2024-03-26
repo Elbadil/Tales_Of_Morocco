@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+{% load static %}
+{% block content %}
+  <!-- Wrapper -->
+  <div id="wrapper">
+
+    <!-- Header -->
+    {% include 'header_menu.html' %}
+
+    <!-- Main -->
+    <div id="main">
+      <!-- About us -->
+      <div class="post">
+        <h2>Contact us</h2>
+        <hr>
+        <div class="mini-posts">
+
+          <div class="contacts">
+
+              <div class="contact-info">
+                <div><img src="{% static 'images/adil.jpg' %}" alt=""/></div>
+                <div><h3>Adil El Bali</h3></div>
+                <div>
+                  <ul class="icons">
+                  <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                  <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                  <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                  <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                </div>
+              </div>
+
+              <div class="contact-info">
+                <div><img src="{% static 'images/safuan.jpg' %}" alt=""/></div>
+                <div><h3>Safouan El Mail</h3></div>
+                <div>
+                  <ul class="icons">
+                  <li><a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a></li>
+                  <li><a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a></li>
+                  <li><a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+                  <li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+                </ul>
+                </div>
+              
+              </div>
+          
+          </div>
+          <hr>
+          <p>Nullam sed odio vitae risus ultrices efficitur id at mauris. Cras aliquet elit nec neque lacinia tempor. Integer nec massa sit amet odio dapibus tincidunt. Sed varius enim non quam posuere, at viverra lorem tempor. Vivamus non libero vitae velit dictum eleifend. Suspendisse potenti. Vivamus nec tellus sit amet est interdum iaculis non sed nulla. Sed pretium efficitur est nec facilisis. Maecenas fringilla libero odio, non fermentum nisl vehicula et. Donec elementum tincidunt augue, non suscipit sem molestie eget.</p>
+
+        </div>
+        
+      </div>
+
+    </div>
+
+    <!-- Sidebar -->
+    <section id="sidebar">
+
+      <!-- Intro -->
+      <section id="intro">
+        <a href="#" class="logo"><img src="{% static 'images/logo.jpg' %}" alt="" /></a>
+        <header>
+          <h2>Tales Of Morocco</h2>
+          <p>Discover Morocco, Share Your Story, Inspire Adventure.</a></p>
+        </header>
+      </section>
+
+      <!-- About -->
+      <section class="blurb">
+        <h2>About</h2>
+        <p>Mauris neque quam, fermentum ut nisl vitae, convallis maximus nisl. Sed mattis nunc id lorem euismod amet placerat. Vivamus porttitor magna enim, ac accumsan tortor cursus at phasellus sed ultricies.</p>
+        <ul class="actions">
+          <li><a href="{% url 'about' %}" class="button">Learn More</a></li>
+        </ul>
+      </section>
+
+    </section>
+
+  </div>
+
+{% endblock %}
