@@ -268,7 +268,120 @@ a.comment-a {
   margin-bottom: 18px;
 }
 
-/* Profile */
-.intro header.profile-username h2{
+/* Landing Page intro */
+.app-intro {
+  padding-left: 30px;
+  padding-right: 20px;
+  padding-top: 30px;
+  border-radius: 3px;
+  margin-bottom: 30px;
+}
+
+.first-intro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 60px;
+}
+
+.app-description {
+  width: 43%;
+}
+
+.app-description h1 {
+  font-size: 39px;
+  margin-bottom: 10px;
+}
+
+.app-description p {
   font-size: 20px;
+  font-family: "Raleway", Helvetica, sans-serif;
+  margin-bottom: 19px;
+}
+
+.app-image img {
+  width: 43em;
+  margin-bottom: 8px;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px #393e46;
+  filter: brightness(0.9);
+}
+
+.actions.home {
+  font-size: 18px;
+}
+
+/* Landing page features */
+.second-intro {
+  background-color: rgb(250, 250, 250);
+  border: 2px rgb(233, 231, 231) solid;
+  border-radius: 3px;
+  padding-top: 60px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-bottom: 2px;
+}
+
+.feature {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 80px;
+}
+
+.feature h3 {
+  font-size: 33px;
+  margin-bottom: 10px;
+}
+
+.feature p {
+  font-size: 25px;
+  font-family: "Raleway", Helvetica, sans-serif;
+}
+
+.feature img {
+  border-radius: 50%;
+}
+
+/*  */
+.feature-img-one {
+  width: 40%;
+}
+
+.feature-img-one img {
+  margin-left: 60px;
+  width: 20em;
+
+}
+
+.feature-desc-one {
+  width: 70%;
+}
+
+/*  */
+.feature-desc-two {
+  width: 60%;
+  margin-left: 60px;
+}
+
+.feature-img-two {
+  margin-right: 30px;
+  margin-left: 20px;
+}
+
+.feature-img-two img {
+  width: 22em;
+}
+/*  */
+.feature-desc-three {
+  width: 70%;
+}
+
+.feature-img-three img {
+  margin-left: 60px;
+  width: 22em;
+}
+
+.feature-img-three {
+  width: 43%;
 }

@@ -50,6 +50,10 @@ class BlogPost(models.Model):
 
     def class_name(self) -> str:
         return self.__class__.__name__
+    
+    def short_description(self) -> str:
+        return f'{self.description[:430]}...'
+
 
 class Comment(models.Model):
     """Comment Model"""
