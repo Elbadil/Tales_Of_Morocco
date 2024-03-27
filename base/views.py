@@ -12,6 +12,11 @@ from .models import User, BlogPost, Comment, Like, City
 from .forms import MyUserCreationFrom, CreateBlogForm, UpdateUserForm
 
 
+def index(request):
+    """Landing Page"""
+    return render(request, 'index.html')
+
+
 def home(request):
     """Home Page"""
     query = request.GET.get('s_query') if request.GET.get('s_query') else ''
@@ -46,7 +51,6 @@ def postSetup(request, posts):
     """sets up all necessary posts logic"""
     for post in posts:
         post.comments = post.comment_set.all()
-        post.short_description = f"{post.description[:430]}..."
 
     user_likes = None;
     if request.user.is_authenticated:
@@ -139,12 +143,9 @@ def logoutUser(request):
 def profilePage(request, pk):
     """Profile Page"""
     user = User.objects.get(id=int(pk))
-    posts_list = BlogPost.objects.filter(author__id=int(pk))
+    posts = BlogPost.objects.filter(author__id=int(pk))
     user_comments = user.comment_set.all()
     user_likes = user.like_set.all()
-
-    # paginate posts
-    posts = paginatePosts(request, posts_list)
 
     # setup likes and comments logic
     postSetup(request, posts)

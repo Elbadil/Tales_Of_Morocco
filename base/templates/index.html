@@ -1,0 +1,108 @@
+<!DOCTYPE HTML>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <link rel="stylesheet" href="{% static 'styles/main.css' %}" />
+  <link rel="stylesheet" href="{% static 'styles/main_1.css' %}" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  {% if title %}
+    <title>{{ title }} | Tales Of Morocco</title>
+  {% else %}
+    <title>Tales Of Morocco</title>
+  {% endif %}
+</head>
+<body class="single is-preload">
+  <!-- Wrapper -->
+  <div id="wrapper">
+    <!-- Header & Menu -->
+    {% include 'header_menu.html' %}
+
+    <!-- Landing Page -->
+    <!-- Main -->
+    <div id="main">
+      <div class="app-intro">
+        <div class="first-intro">
+          <div class="app-description">
+            <h1>Explore Morocco<br>
+            SHARE YOUR STORY</h1>
+            <p>Welcome to Tales of Morocco, a vibrant community where
+              travelers share their adventures,
+              and every story becomes a journey in itself.</p>
+            <ul class="actions home">
+              <li>
+                <a href="{% url 'home' %}" class="button large fit">Start Exploring</a>
+              </li>
+              <li>
+                <a href="{% url 'create-blog' %}" class="button large fit">Share Your Journey</a>
+              </li>
+            </ul> 
+          </div>
+          <div class="app-image">
+            <img src="{% static 'images/landing-pic.jpg' %}">
+          </div>
+        </div>
+        <div class="second-intro">
+          <div class="feature">
+            <div class="feature-img-one">
+              <img src="{% static 'images/destination.jpg' %}">
+            </div>
+            <div class="feature-desc-one">
+              <h3>Find Your Next Travel Destination</h3>
+              <p>Get inspired by fellow travelers and uncover your next dream destination, guided by authentic experiences and insider tips.</p>
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-desc-two">
+              <h3>Share Your Adventures</h3>
+              <p>Connect with fellow travelers and share your unforgettable experiences, inspiring others to follow in your footsteps.</p>
+            </div>
+            <div class="feature-img-two">
+              <img src="{% static 'images/share.jpg' %}">
+            </div>
+          </div>
+          <div class="feature">
+            <div class="feature-img-three">
+              <img src="{% static 'images/food-comfort.jpg' %}">
+            </div>
+            <div class="feature-desc-three">
+              <h3>Explore Destinations for Fine Dining and Comfort</h3>
+              <p>Explore destinations known for their exceptional cuisine and luxurious accommodations,
+                ensuring a memorable travel experience.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Footer -->
+    <section id="footer">
+      <ul class="icons">
+        <li>
+          <a href="#" class="icon brands fa-twitter"><span class="label">Twitter</span></a>
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-facebook-f"><span class="label">Facebook</span></a>
+        </li>
+        <li>
+          <a href="#" class="icon brands fa-instagram"><span class="label">Instagram</span></a>
+        </li>
+        <li>
+          <a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a>
+        </li>
+      </ul>
+      <p class="copyright">
+        &copy; Tales Of Morocco.
+        Images: <a href="https://www.freepik.com">Freepik</a> | <a href="https://www.pexels.com">Pexels</a> | <a href="https://unsplash.com">Unsplash</a>
+      </p>
+    </section>
+  </div>
+  <!-- Scripts -->
+  <script src="{% static 'scripts/jquery.min.js' %}"></script>
+  <script src="{% static 'scripts/browser.min.js' %}"></script>
+  <script src="{% static 'scripts/breakpoints.min.js' %}"></script>
+  <script src="{% static 'scripts/util.js' %}"></script>
+  <script src="{% static 'scripts/main.js' %}"></script>
+</body>
+</html>
