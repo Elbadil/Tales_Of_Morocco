@@ -16,7 +16,7 @@
 
 ## Introduction
 
-Tales of Morocco is a platform dedicated to delving into the captivating landscapes, diverse culture, and dynamic communities of Morocco. Here, enthusiasts can immerse themselves in sharing their travel escapades, culinary discoveries, and accommodation experiences, along with picturesque views.
+**Tales of Morocco** is a platform dedicated to delving into the captivating landscapes, diverse culture, and dynamic communities of Morocco. Here, enthusiasts can immerse themselves in sharing their travel escapades, culinary discoveries, and accommodation experiences, along with picturesque views.
 
 This projects community serves as a hub where adventurers exchange invaluable recommendations for crafting their next unforgettable Moroccan journey.
 
@@ -94,8 +94,8 @@ URL routing configuration for mapping URLs to view functions.
 
 We extend our thanks to all contributors and resources that have aided in the development of the Travel Blog Platform:
 
-- [Django Documentation](https://docs.djangoproject.com/en/stable/)
-- **[Python Django 7 Hour Course by Dennis Ivy: ](https://www.youtube.com/watch?v=PtQiiknWUcI&t=21265s)**
+- **[Django Documentation](https://docs.djangoproject.com/en/stable/)**
+- **[Python Django 7 Hour Course by Dennis Ivy](https://www.youtube.com/watch?v=PtQiiknWUcI&t=21265s)**
 - **[ChatGPT](https://chat.openai.com/)**
 
 ## Contributing
