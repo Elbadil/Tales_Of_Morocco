@@ -29,24 +29,74 @@ To run this project locally, follow these steps:
     ```bash
     pip install -r requirements.txt
     ```
-3. Set up the database by configuring the `SQLALCHEMY_DATABASE_URI` in `__init__.py`.
-4. Run the Django application:
+3. Set up the database by running migrations:
     ```bash
-    python run.py
+    python manage.py makemigrations
+    python manage.py migrate
     ```
-5. Access the application in your web browser at `http://localhost:5000`.
+4. Run the Django development server:
+    ```bash
+    python manage.py runserver
+    ```
+5. Access the application in your web browser at `http://localhost:8000`.
 
 ## Features
 
+- User authentication and registration
+- Create, update, and delete blog posts
+- Like and comment on blog posts
+- Explore blogs by city, cuisine, and accommodation
+- View profiles of other users and their activities
+
 ## Tech Stack
+
+- **Django**: High-level Python web framework for rapid development.
+- **HTML/CSS**: Frontend technologies for structuring and styling web pages.
+- **SQLite**: Lightweight relational database used for storing application data.
+- **JavaScript**: Programming language for client-side interactivity.
 
 ## Usage
 
+Upon launching the application, users can:
+
+- Register for an account or log in if they already have one.
+- Create new blog posts with details about their travel experiences.
+- Like and comment on blog posts shared by other users.
+- Explore blog posts by city, cuisine, and accommodation preferences.
+- Update their account details and profile picture.
+- View profiles of other users to see their activities and blog posts.
+
 ## Files
 
-## Forms
+Here are some of the main files:
+
+### `base/apps.py`
+
+Django application configuration.
+
+### `base/forms.py`
+
+Form classes for user registration, blog post creation, and profile updates.
+
+### `base/models.py`
+
+Database models for users, blog posts, comments, likes, and cities.
+
+### `base/views.py`
+
+View functions for rendering HTML templates, handling user authentication, and managing CRUD operations for blog posts and user profiles.
+
+### `base/urls.py`
+
+URL routing configuration for mapping URLs to view functions.
 
 ## Acknowledgment
+
+We extend our thanks to all contributors and resources that have aided in the development of the Travel Blog Platform:
+
+- [Django Documentation](https://docs.djangoproject.com/en/stable/)
+- **[Python Django 7 Hour Course by Dennis Ivy: ](https://www.youtube.com/watch?v=PtQiiknWUcI&t=21265s)**
+- **[ChatGPT](https://chat.openai.com/)**
 
 ## Contributing
 
