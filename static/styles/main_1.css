@@ -8,6 +8,13 @@
   border-radius: 50%;
 }
 
+/* Logo */
+.new_logo {
+  width: 35%;
+  height: 35%;
+  border-radius: 50%
+}
+      
 /* Contact us */
 .contacts {
   display: flex;
