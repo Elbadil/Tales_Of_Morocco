@@ -10,7 +10,11 @@
       <div class="delete-form">
         <form method="POST" action="">
           {% csrf_token %}
-          <p>Are you sure you want to delete "{{ obj }}"?</p>
+          {% if obj_type.class_name == 'Comment' %}
+          <p>Are you sure you want to delete your comment <b>"{{ obj }}"</b>?</p>
+          {% else %}
+          <p>Are you sure you want to delete your blog post <b>"{{ obj }}"</b>?</p>
+          {% endif %}
           <ul class="actions">
             <li>
               <button class="button large fit" type="submit">Confirm</button>

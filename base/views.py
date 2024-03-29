@@ -19,8 +19,12 @@ def index(request):
 
 def home(request):
     """Home Page"""
-    query = request.GET.get('s_query') if request.GET.get('s_query') else ''
-    
+    query = ''
+    results = False
+    if request.GET.get('s_query'):
+        query = request.GET.get('s_query')
+        results = True
+
     posts_list = BlogPost.objects.filter(
         Q(city__name__icontains=query) |
         Q(title__icontains=query) |
@@ -42,7 +46,8 @@ def home(request):
     context = {
         'title': 'Home',
         'posts': posts,
-        'activities': activities[:12]
+        'activities': activities[:12],
+        'filter': f'Results For "{query}"' if results else None
     }
     return render(request, 'home.html', context)
 
@@ -315,7 +320,8 @@ def deleteBlog(request, pk):
 
     context = {
         'title': f'Delete {post.title}?',
-        'obj': post.title
+        'obj': post.title,
+        'obj_type': post
     }
     return render(request, 'delete.html', context)
 
@@ -352,7 +358,8 @@ def deleteComment(request, pk):
 
     context = {
         'title': f'Delete Comment "{comment.body[:5]}.."?',
-        'obj': comment.body
+        'obj': comment.body,
+        'obj_type': comment
     }
     return render(request, 'delete.html', context)
 
